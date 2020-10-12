@@ -11,4 +11,7 @@ public class TelegramBotInsuranceApplication {
 		SpringApplication.run(TelegramBotInsuranceApplication.class, args);
 	}
 
+	/*
+	 Ну, с почином.
+	 */
 }
