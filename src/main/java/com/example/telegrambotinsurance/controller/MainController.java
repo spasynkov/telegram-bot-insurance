@@ -12,6 +12,6 @@ public class MainController {
     // Возвращает название html-ки, которую спринг покажет пользователю в ответ.
     @RequestMapping("/")
     public String htmlWelcome() {
-        return "src/main/resources/static/welcome.html";
+        return "welcome.html";
     }
 }
