@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -14,12 +15,14 @@ public class TGBotRestController {
 
     @RequestMapping("/rest")
     @ResponseBody
+    public Date rest(){
+        return new Date();
 //    public List<Dog> rest() {
-    public Dog[] rest() {
-        Dog dog = new Dog();
-        dog.dogSetFactory();
-        Dog[] set = dog.dogSet;
-        return set;
+//    public Dog[] rest() {
+//        Dog dog = new Dog();
+//        dog.dogSetFactory();
+//        Dog[] set = dog.dogSet;
+//        return set;
 //        dog.dogFactory();
 //        List<Dog> list = dog.dogList;
 //        return list;
