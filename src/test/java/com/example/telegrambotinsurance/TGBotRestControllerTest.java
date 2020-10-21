@@ -14,6 +14,7 @@ public class TGBotRestControllerTest {
         String expectAnswer = "Hello";
 
         //assertion
+
         Assertions.assertEquals(message, expectAnswer);
 
     }
