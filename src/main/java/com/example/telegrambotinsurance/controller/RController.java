@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
 
- * Класс ливит запросы на корневой запрос по адресу "/rest"
+ * Класс обрабатывает запросы на корневой запрос по адресу "/rest"
 
  */
 
@@ -17,7 +17,7 @@ public class RController {
     public RController() {
     }
 
-    // Метод ливит запросы на корневой запрос по адресу "/rest".
+    // Метод обрабатывает запросы на корневой запрос по адресу "/rest".
     @RequestMapping()
     public Message getMessage() {
         return new Message();
