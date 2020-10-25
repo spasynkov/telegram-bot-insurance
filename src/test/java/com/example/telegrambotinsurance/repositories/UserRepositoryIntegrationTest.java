@@ -60,16 +60,16 @@ public class UserRepositoryIntegrationTest {
         List<User> users = (List<User>) userRepository.findAll();
 
         // taking an element by id
-        long id = users.size() - 1;
-        Optional<User> userBefore = userRepository.findById(id);
+        long idUser = users.size() - 1;
+        Optional<User> userBefore = userRepository.findById(idUser);
 
         // updating an element
-        User user = new User(id, "someName", "some@email.com");
+        User user = new User(idUser, "someName", "some@email.com");
         userRepository.save(user);
 
         //taking a new element by this id
         List<User> usersAfter = (List<User>) userRepository.findAll();
-        Optional<User> userAfter = userRepository.findById(id);
+        Optional<User> userAfter = userRepository.findById(idUser);
 
         // element`s comparison
         Assertions.assertNotEquals(userBefore, userAfter);
