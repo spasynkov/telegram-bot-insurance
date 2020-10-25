@@ -18,6 +18,7 @@ public class User {
 	private String name;
 	private String email;
 
+	// create new user without id
 	public User(String name, String email) {
 		this.name = name;
 		this.email = email;

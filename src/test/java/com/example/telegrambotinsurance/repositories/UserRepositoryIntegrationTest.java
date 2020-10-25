@@ -1,26 +1,77 @@
 package com.example.telegrambotinsurance.repositories;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import com.example.telegrambotinsurance.entities.User;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@DataJpaTest
+
+@SpringBootTest
 public class UserRepositoryIntegrationTest {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Test
-	public void whenCalledSave_thenCorrectNumberOfUsers() {
-		List<User> users = (List<User>) userRepository.findAll();
-		long size = users.size();
-		userRepository.save(new User( "Bob", "bob@domain.com"));
+    @Test
+    public void whenCalledSave_thenCorrectNumberOfUsers() {
+        // taking data size
+        List<User> users = (List<User>) userRepository.findAll();
 
-		Assertions.assertEquals(size, users.size());
-	}
+        // incrementing data size
+        long sizeBefore = users.size() + 1;
+
+        //writing a new element
+        User user = new User("Bob", "bob@domain.com");
+        userRepository.save(user);
+
+        //taking a new data size
+        List<User> usersAfter = (List<User>) userRepository.findAll();
+        long sizeAfter = usersAfter.size();
+
+        // size comparison
+        Assertions.assertEquals(sizeBefore, sizeAfter);
+    }
+
+    @Test
+    public void whenCalledDelete_thenCorrectNumberOfUsers() {
+        // taking data size
+        List<User> users = (List<User>) userRepository.findAll();
+
+        // decrementing data size
+        long sizeBefore = users.size() - 1;
+
+        // deleting an element
+        userRepository.deleteById(sizeBefore);
+
+        //taking a new data size
+        List<User> usersAfter = (List<User>) userRepository.findAll();
+        long sizeAfter = usersAfter.size();
+
+        // size comparison
+        Assertions.assertEquals(sizeBefore, sizeAfter);
+    }
+
+    @Test
+    public void whenCalledUpdate_thenCorrectElementChanges() {
+        // taking data list
+        List<User> users = (List<User>) userRepository.findAll();
+
+        // taking an element by id
+        long id = users.size() - 1;
+        Optional<User> userBefore = userRepository.findById(id);
+
+        // updating an element
+        User user = new User(id, "someName", "some@email.com");
+        userRepository.save(user);
+
+        //taking a new element by this id
+        List<User> usersAfter = (List<User>) userRepository.findAll();
+        Optional<User> userAfter = userRepository.findById(id);
+
+        // element`s comparison
+        Assertions.assertNotEquals(userBefore, userAfter);
+    }
 }
