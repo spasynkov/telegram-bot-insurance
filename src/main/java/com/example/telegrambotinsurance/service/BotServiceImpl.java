@@ -13,8 +13,8 @@ public class BotServiceImpl implements BotService {
     Map<String, AbstractBot> bots;
 
     //Аннотация вносит в Map имя бота и бин
-    @Autowired()
-    public BotServiceImpl(@Qualifier("BotsWithTockens") Map<String, AbstractBot> bots) {
+    @Autowired
+    public BotServiceImpl(@Qualifier("BotsWithTokens") Map<String, AbstractBot> bots) {
         this.bots = bots;
     }
 

@@ -6,19 +6,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class BotConfigs {
 
     //Создание Map с ключами в виде токенов и значениями в виде самих ботов
-    @Bean("BotsWithTockens")
+    @Bean("BotsWithTokens")
     @Autowired
-    public Map<String, AbstractBot> createBotsMapWithTockens(Map<String,AbstractBot> bots){
+    public Map<String, AbstractBot> createBotsMapWithTockens(List<AbstractBot> bots){
         Map<String,AbstractBot> sortedBots = new HashMap<>();
-        for (Map.Entry<String,AbstractBot> bot:
-             bots.entrySet()) {
-            sortedBots.put(bot.getValue().getToken(),bot.getValue());
+        for (AbstractBot bot:
+             bots) {
+            sortedBots.put(bot.getToken(),bot);
         }
         return sortedBots;
     }
