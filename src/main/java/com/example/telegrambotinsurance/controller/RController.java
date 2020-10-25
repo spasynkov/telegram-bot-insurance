@@ -9,13 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
  */
 
-
 @RestController
 @RequestMapping("/rest")
 public class RController {
-
-    public RController() {
-    }
 
     // Метод обрабатывает запросы на корневой запрос по адресу "/rest".
     @RequestMapping()
