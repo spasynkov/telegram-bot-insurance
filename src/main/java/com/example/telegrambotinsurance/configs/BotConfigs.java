@@ -15,7 +15,7 @@ public class BotConfigs {
     //Создание Map с ключами в виде токенов и значениями в виде самих ботов
     @Bean("BotsWithTokens")
     @Autowired
-    public Map<String, AbstractBot> createBotsMapWithTockens(List<AbstractBot> bots){
+    public Map<String, AbstractBot> createBotsMapWithTokens(List<AbstractBot> bots){
         Map<String,AbstractBot> sortedBots = new HashMap<>();
         for (AbstractBot bot:
              bots) {
