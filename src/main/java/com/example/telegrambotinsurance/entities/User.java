@@ -15,15 +15,15 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	private String name;
-	private String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private String email;
 
-	// create new user without id
-	public User(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
+    // create new user without id
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

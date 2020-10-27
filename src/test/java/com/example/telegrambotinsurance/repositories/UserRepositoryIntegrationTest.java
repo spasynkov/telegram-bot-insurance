@@ -3,7 +3,7 @@ package com.example.telegrambotinsurance.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import org.aspectj.lang.annotation.After;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,23 @@ public class UserRepositoryIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
-    @After("whenCalledUpdate_thenCorrectElementChanges()")
-    public void destroyTestData() {
-        System.out.println("Test finished");
-        List<User> users = userRepository.findAll();
+    public void fail() {
+        Assertions.assertEquals(0, 1);
+    }
+
+
+    @AfterAll
+    public static void destroyTestData(@Autowired UserRepository userRepos) {
+        System.out.println("Begin destroying test object`s");
+        List<User> users = userRepos.findAll();
         for (int i = 0; i < users.size(); i++) {
             try {
                 Long.parseLong(users.get(i).getName());
-                userRepository.delete(users.get(i));
+                userRepos.delete(users.get(i));
             } catch (Exception ignored) {
             }
         }
-        System.out.println("Test DONE");
+        System.out.println("All test object`s destroyed");
     }
 
     @Test
@@ -59,21 +64,22 @@ public class UserRepositoryIntegrationTest {
 
             } else {
                 System.out.println("This user not saved!");
-                Assertions.assertEquals(0, 1);
+                fail();
             }
         } else {
             System.out.println("This user already saved or has name==null or email==null!");
-            Assertions.assertEquals(0, 1);
+            fail();
         }
 
     }
 
     @Test
     public void whenCalledDelete_thenCorrectNumberOfUsers() {
-        // taking data size
+        // taking data size and denying object
         List<User> usersBefore = userRepository.findAll();
         long sizeBefore = usersBefore.size();
-        long userId = usersBefore.get(((int) sizeBefore - 1)).getId() - 1;
+        User denyingUser = usersBefore.get(((int) sizeBefore - 1));
+        long userId = denyingUser.getId();
 
         // deleting an element
         userRepository.deleteById(userId);
@@ -83,7 +89,12 @@ public class UserRepositoryIntegrationTest {
         long sizeAfter = usersAfter.size();
 
         // size comparison
-        Assertions.assertEquals(sizeBefore - 1, sizeAfter);
+        if (!usersAfter.contains(denyingUser)) {
+            Assertions.assertEquals(sizeBefore - 1, sizeAfter);
+        } else {
+            System.out.println("Deleting false!");
+            fail();
+        }
     }
 
     @Test
@@ -102,16 +113,31 @@ public class UserRepositoryIntegrationTest {
 
         // updating an element
         User user = new User(userId, name, email);
-        userRepository.save(user);
 
-        //taking a new element by this id
-        Optional<User> userAfter = userRepository.findById(userId);
+        if (!usersBefore.contains(user)) {
+            userRepository.save(user);
+            List<User> usersAfter = userRepository.findAll();
+            long sizeAfter = usersAfter.size();
 
-        // element`s comparison
-        if (userRepository.findAll().contains(user)) {
-            Assertions.assertNotEquals(userBefore, userAfter);
+            if (usersAfter.contains(user)) {
+
+                //taking a new element by this id
+                Optional<User> userAfter = userRepository.findById(userId);
+
+                // element`s comparison
+                if (sizeBefore == sizeAfter) {
+                    Assertions.assertNotEquals(userBefore, userAfter);
+                } else {
+                    System.out.println("Updating false: not update this id");
+                    fail();
+                }
+            } else {
+                System.out.println("This user is not saved!");
+                fail();
+            }
         } else {
-            Assertions.assertEquals(0, 1);
+            System.out.println("This user is already in the DB!");
+            fail();
         }
     }
 }
