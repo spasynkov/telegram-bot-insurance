@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# ucanaccess temp dirs
+Ucanaccess_net.ucanaccess.jdbc.DBReference@*
+
 ### STS ###
 .apt_generated
 .classpath
