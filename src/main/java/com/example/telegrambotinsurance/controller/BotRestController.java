@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BotRestController {
 
 	@PostMapping("/rest/{token}")
-	public void getWebhookPostRequest(@PathVariable String token) {
+	public void getWebhookPostRequest(@PathVariable("token") String token) {
 
 	}
 }
