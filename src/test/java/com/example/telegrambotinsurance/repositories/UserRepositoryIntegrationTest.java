@@ -19,18 +19,17 @@ public class UserRepositoryIntegrationTest {
 	private int remoteUserCounter;
 
 
-
 	@Autowired
 	private UserRepository userRepository;
 
 	@AfterAll
-	public static void deleteTestObjects(@Autowired UserRepository userRepos) {
+	public static void deleteTestObjects(@Autowired UserRepository userRepository) {
 
-		List<User> listOfUsers = userRepos.findAll();
+		List<User> listOfUsers = userRepository.findAll();
 		for (User listOfUser : listOfUsers) {
 			try {
 				Long.parseLong(listOfUser.getName());
-				userRepos.delete(listOfUser);
+				userRepository.delete(listOfUser);
 			} catch (Exception ignored) {
 
 			}
@@ -44,36 +43,31 @@ public class UserRepositoryIntegrationTest {
 		String name = String.valueOf(System.currentTimeMillis());
 		String email = "veryNice@mail.ru";
 		User user = new User(name, email);
+		long listSizeBefore;
+		long listSizeAfter;
 
 		//List users before save
-		List<User> userBefore = userRepository.findAll();
+		List<User> listOfUsersBeforeSavingNewUser = userRepository.findAll();
 
 		//user`s size field`s
-		long sizeBefore = userBefore.size();
-		long sizeAfter;
+		listSizeBefore = listOfUsersBeforeSavingNewUser.size();
+
 
 		//action
-		if (!userBefore.contains(user) & user.getName() != null || user.getEmail() != null) {
-			userRepository.save(user);
+		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
+		userRepository.save(user);
 
-			//user`s after save
-			List<User> usersAfter = userRepository.findAll();
-			sizeAfter = usersAfter.size();
+		//user`s after save
+		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
+		listSizeAfter = listOfUsersAfterSavingNewUser.size();
 
-			//assertion
-			if (usersAfter.contains(user)) {
-				Assertions.assertEquals(sizeBefore + 1, sizeAfter);
-
-			} else {
-				System.out.println("This user not saved!");
-
-			}
-		} else {
-			System.out.println("This user already saved or has name==null or email==null!");
-
-		}
+		//assertion
+		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+		Assertions.assertEquals(listSizeBefore + 1, listSizeAfter);
 
 	}
+
+
 
 	@Test
 	public void whenCalledDelete_thenCorrectNumberOfUsers() {

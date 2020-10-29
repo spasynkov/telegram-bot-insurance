@@ -12,16 +12,16 @@ import java.util.Map;
 @Configuration
 public class BotConfigs {
 
-    //Создание Map с ключами в виде токенов и значениями в виде самих ботов
-    @Bean("BotsWithTokens")
-    @Autowired
-    public Map<String, AbstractBot> createBotsMapWithTokens(List<AbstractBot> bots){
-        Map<String,AbstractBot> sortedBots = new HashMap<>();
-        for (AbstractBot bot:
-             bots) {
-            sortedBots.put(bot.getToken(),bot);
-        }
-        return sortedBots;
-    }
+//    Создание Map с ключами в виде токенов и значениями в виде самих ботов
+//    @Bean("BotsWithTokens")
+//    @Autowired
+//    public Map<String, AbstractBot> createBotsMapWithTokens(List<AbstractBot> bots){
+//        Map<String,AbstractBot> sortedBots = new HashMap<>();
+//        for (AbstractBot bot:
+//             bots) {
+//            sortedBots.put(bot.getToken(),bot);
+//        }
+//        return sortedBots;
+//    }
 
 }
