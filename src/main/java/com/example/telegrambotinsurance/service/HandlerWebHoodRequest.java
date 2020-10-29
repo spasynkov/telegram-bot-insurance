@@ -1,4 +1,4 @@
 package com.example.telegrambotinsurance.service;
 
-public interface HandlerWebHoodRequest {
+public class HandlerWebHoodRequest implements HandlerWebHood {
 }
