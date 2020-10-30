@@ -15,125 +15,149 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class UserRepositoryIntegrationTest {
-	private Logger loggerFactory = LoggerFactory.getLogger(UserRepositoryIntegrationTest.class);
-	private int remoteUserCounter;
-
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserRepositoryIntegrationTest.class);
 	@Autowired
 	private UserRepository userRepository;
 
-	@AfterAll
-	public static void deleteTestObjects(@Autowired UserRepository userRepository) {
 
-		List<User> listOfUsers = userRepository.findAll();
-		for (User listOfUser : listOfUsers) {
-			try {
-				Long.parseLong(listOfUser.getName());
-				userRepository.delete(listOfUser);
-			} catch (Exception ignored) {
-
-			}
-		}
-
-	}
+//	@AfterAll
+//	public static void deleteTestObjects(@Autowired UserRepository userRepository) {
+//
+//		List<User> listOfUsers = userRepository.findAll();
+//		for (User listOfUser : listOfUsers) {
+//			try {
+//				Long.parseLong(listOfUser.getName());
+//				userRepository.delete(listOfUser);
+//			} catch (Exception ignored) {
+//
+//			}
+//		}
+//
+//	}
 
 	@Test
 	public void whenCalledSave_thenNewUserSavedCorrectly() {
-		// created user`s field
 		String name = String.valueOf(System.currentTimeMillis());
-		String email = "veryNice@mail.ru";
+		String email = "wonderful@email.ru";
 		User user = new User(name, email);
-		long listSizeBefore;
-		long listSizeAfter;
+		long listSizeBeforeSaving;
+		long listSizeAfterSaving;
 
 		//List users before save
 		List<User> listOfUsersBeforeSavingNewUser = userRepository.findAll();
 
 		//user`s size field`s
-		listSizeBefore = listOfUsersBeforeSavingNewUser.size();
+		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
+		for (User userList : listOfUsersBeforeSavingNewUser
+		) {
+			LOGGER.debug("BEFORE SAVING: " + userList);
+		}
 
-
-		//action
+		//saving new user
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
 		userRepository.save(user);
 
 		//user`s after save
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
-		listSizeAfter = listOfUsersAfterSavingNewUser.size();
+		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
+		for (User userList : listOfUsersAfterSavingNewUser
+		) {
+			LOGGER.debug("AFTER SAVING: " + userList);
+		}
 
 		//assertion
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
-		Assertions.assertEquals(listSizeBefore + 1, listSizeAfter);
-
+		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
 	}
-
-
 
 	@Test
 	public void whenCalledDelete_thenCorrectNumberOfUsers() {
-		// taking data size and denying object
-		List<User> usersBefore = userRepository.findAll();
-		long sizeBefore = usersBefore.size();
-		User denyingUser = usersBefore.get(((int) sizeBefore - 1));
-		long userId = denyingUser.getId();
-
-		// deleting an element
-		userRepository.deleteById(userId);
-
-		//taking a new data size
-		List<User> usersAfter = userRepository.findAll();
-		long sizeAfter = usersAfter.size();
-
-		// size comparison
-		if (!usersAfter.contains(denyingUser)) {
-			Assertions.assertEquals(sizeBefore - 1, sizeAfter);
-		} else {
-			System.out.println("Deleting false!");
-
-		}
-	}
-
-	@Test
-	public void whenCalledUpdate_thenCorrectElementChanges() {
-
 		String name = String.valueOf(System.currentTimeMillis());
-		String email = "some@email.com";
+		String email = "twoBeerOrNotTwoBeer@drunkard.ru";
+		User user = new User(name, email);
+		long listSizeBeforeSaving;
+		long listSizeBeforeDeleting;
+		long listSizeAfterDeleting;
 
 		// taking data list
-		List<User> usersBefore = userRepository.findAll();
+		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
+		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
+		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
 
-		// taking an element by id
-		long sizeBefore = usersBefore.size();
-		long userId = usersBefore.get(((int) sizeBefore - 1)).getId();
-		Optional<User> userBefore = userRepository.findById(userId);
+		//saving new user
+		userRepository.save(user);
 
-		// updating an element
-		User user = new User(userId, name, email);
 
-		if (!usersBefore.contains(user)) {
-			userRepository.save(user);
-			List<User> usersAfter = userRepository.findAll();
-			long sizeAfter = usersAfter.size();
-
-			if (usersAfter.contains(user)) {
-
-				//taking a new element by this id
-				Optional<User> userAfter = userRepository.findById(userId);
-
-				// element`s comparison
-				if (sizeBefore == sizeAfter) {
-					Assertions.assertNotEquals(userBefore, userAfter);
-				} else {
-					System.out.println("Updating false: not update this id");
-
-				}
-			} else {
-				System.out.println("This user is not saved!");
-
-			}
-		} else {
-			System.out.println("This user is already in the DB!");
-
+		//taking data list size
+		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
+		listSizeBeforeDeleting = listOfUsersAfterSavingNewUser.size();
+		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeBeforeDeleting);
+		for (User userList : listOfUsersAfterSavingNewUser
+		) {
+			LOGGER.debug("AFTER SAVING: " + userList);
 		}
+
+		//deleting new user
+		userRepository.delete(user);
+		List<User> listOfUsersAfterDeletingNewUser = userRepository.findAll();
+		listSizeAfterDeleting = listOfUsersAfterDeletingNewUser.size();
+		for (User userList : listOfUsersAfterDeletingNewUser
+		) {
+			LOGGER.debug("AFTER DELETING: " + userList);
+		}
+
+		Assertions.assertFalse(listOfUsersAfterDeletingNewUser.contains(user));
+		Assertions.assertEquals(listSizeBeforeDeleting - 1, listSizeAfterDeleting);
+
 	}
+
+//	@Test
+//	public void whenCalledUpdate_thenCorrectElementChanges() {
+//
+//		name = String.valueOf(System.currentTimeMillis());
+//		email = "some@email.com";
+//		User userForUpdate = new User(name, email);
+//
+//		// taking data list
+//		List<User> listOfUsersBeforeUpdatingUser = userRepository.findAll();
+//		Assertions.assertFalse(listOfUsersBeforeUpdatingUser.contains(userForUpdate));
+//
+//		// taking an element by id
+//		listSizeBefore = listOfUsersBeforeUpdatingUser.size();
+//		userRepository.save(user);
+//		userId = user.getId();
+//
+//		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
+//		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+//		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(userForUpdate));
+//
+//
+//
+//		if (!usersBefore.contains(user)) {
+//			userRepository.save(user);
+//
+//			long sizeAfter = usersAfter.size();
+//
+//			if (usersAfter.contains(user)) {
+//
+//				//taking a new element by this id
+//				Optional<User> userAfter = userRepository.findById(userId);
+//
+//				// element`s comparison
+//				if (sizeBefore == sizeAfter) {
+//					Assertions.assertNotEquals(userBefore, userAfter);
+//				} else {
+//					System.out.println("Updating false: not update this id");
+//
+//				}
+//			} else {
+//				System.out.println("This user is not saved!");
+//
+//			}
+//		} else {
+//			System.out.println("This user is already in the DB!");
+//
+//		}
+//	}
 }
