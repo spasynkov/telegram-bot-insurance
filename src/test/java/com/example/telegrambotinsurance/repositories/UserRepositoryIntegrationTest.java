@@ -1,9 +1,9 @@
 package com.example.telegrambotinsurance.repositories;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -19,26 +19,36 @@ public class UserRepositoryIntegrationTest {
 	@Autowired
 	private UserRepository userRepository;
 
+	@AfterAll
+	public static void deletingTestObjects(@Autowired UserRepository userRepository) {
+		int deletingCounts = 0;
+		List<User> listOfUsers = userRepository.findAll();
+		for (User user : listOfUsers) {
+			if (user.getEmail().equals("twoBeerOrNotTwoBeer@drunkard.ru")) {
+				userRepository.delete(user);
+				deletingCounts++;
+			}
+		}
+		LOGGER.debug("Count of deleting operations  after all tests: " + deletingCounts);
+	}
 
-//	@AfterAll
-//	public static void deleteTestObjects(@Autowired UserRepository userRepository) {
-//
-//		List<User> listOfUsers = userRepository.findAll();
-//		for (User listOfUser : listOfUsers) {
-//			try {
-//				Long.parseLong(listOfUser.getName());
-//				userRepository.delete(listOfUser);
-//			} catch (Exception ignored) {
-//
-//			}
-//		}
-//
-//	}
+	@AfterEach
+	public void deletingTestObjectsAfterMethod() {
+		int deletingCounts = 0;
+		List<User> listOfUsers = userRepository.findAll();
+		for (User user : listOfUsers) {
+			if (user.getEmail().equals("twoBeerOrNotTwoBeer@drunkard.ru")) {
+				userRepository.delete(user);
+				deletingCounts++;
+			}
+		}
+		LOGGER.debug("Count of deleting operations: " + deletingCounts);
+	}
 
 	@Test
 	public void whenCalledSave_thenNewUserSavedCorrectly() {
 		String name = String.valueOf(System.currentTimeMillis());
-		String email = "wonderful@email.ru";
+		String email = "twoBeerOrNotTwoBeer@drunkard.ru";
 		User user = new User(name, email);
 		long listSizeBeforeSaving;
 		long listSizeAfterSaving;
@@ -52,6 +62,7 @@ public class UserRepositoryIntegrationTest {
 		) {
 			LOGGER.debug("BEFORE SAVING: " + userList);
 		}
+		LOGGER.debug("**********");
 
 		//saving new user
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
@@ -71,7 +82,7 @@ public class UserRepositoryIntegrationTest {
 	}
 
 	@Test
-	public void whenCalledDelete_thenCorrectNumberOfUsers() {
+	public void whenCalledDelete_thenDeletingUserCorrectly() {
 		String name = String.valueOf(System.currentTimeMillis());
 		String email = "twoBeerOrNotTwoBeer@drunkard.ru";
 		User user = new User(name, email);
@@ -97,6 +108,7 @@ public class UserRepositoryIntegrationTest {
 		) {
 			LOGGER.debug("AFTER SAVING: " + userList);
 		}
+		LOGGER.debug("**********");
 
 		//deleting new user
 		userRepository.delete(user);
@@ -109,55 +121,61 @@ public class UserRepositoryIntegrationTest {
 
 		Assertions.assertFalse(listOfUsersAfterDeletingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeDeleting - 1, listSizeAfterDeleting);
-
 	}
 
-//	@Test
-//	public void whenCalledUpdate_thenCorrectElementChanges() {
-//
-//		name = String.valueOf(System.currentTimeMillis());
-//		email = "some@email.com";
-//		User userForUpdate = new User(name, email);
-//
-//		// taking data list
-//		List<User> listOfUsersBeforeUpdatingUser = userRepository.findAll();
-//		Assertions.assertFalse(listOfUsersBeforeUpdatingUser.contains(userForUpdate));
-//
-//		// taking an element by id
-//		listSizeBefore = listOfUsersBeforeUpdatingUser.size();
-//		userRepository.save(user);
-//		userId = user.getId();
-//
-//		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
-//		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
-//		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(userForUpdate));
-//
-//
-//
-//		if (!usersBefore.contains(user)) {
-//			userRepository.save(user);
-//
-//			long sizeAfter = usersAfter.size();
-//
-//			if (usersAfter.contains(user)) {
-//
-//				//taking a new element by this id
-//				Optional<User> userAfter = userRepository.findById(userId);
-//
-//				// element`s comparison
-//				if (sizeBefore == sizeAfter) {
-//					Assertions.assertNotEquals(userBefore, userAfter);
-//				} else {
-//					System.out.println("Updating false: not update this id");
-//
-//				}
-//			} else {
-//				System.out.println("This user is not saved!");
-//
-//			}
-//		} else {
-//			System.out.println("This user is already in the DB!");
-//
-//		}
-//	}
+	@Test
+	public void whenCalledUpdate_thenUpdatingCorrectly() throws InterruptedException {
+		String name = String.valueOf(System.currentTimeMillis());
+		String email = "masterOfUniverse@deathstar.empire";
+		User user = new User(name, email);
+		Long userId;
+		long listSizeBeforeSaving;
+		long listSizeAfterSaving;
+		long listSizeAfterUpdating;
+
+		// taking data list
+		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
+		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
+		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
+		for (User userList : listOfUsersBeforeSavingUser
+		) {
+			LOGGER.debug("BEFORE SAVING: " + userList);
+		}
+
+		// taking an element by id
+		userRepository.save(user);
+		userId = user.getId();
+		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
+		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
+		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
+		LOGGER.debug("**********");
+		for (User userList : listOfUsersAfterSavingNewUser
+		) {
+			LOGGER.debug("AFTER SAVING: " + userList);
+		}
+
+		//delay for unique variable "name"
+		Thread.sleep(100);
+
+		// create new user for update
+		String nameForUpdate = String.valueOf(System.currentTimeMillis());
+		String emailForUpdate = "twoBeerOrNotTwoBeer@drunkard.ru";
+		User userForUpdate = new User(userId, nameForUpdate, emailForUpdate);
+		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(userForUpdate));
+		userRepository.save(userForUpdate);
+
+
+		//checking for a match
+		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
+		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
+		LOGGER.debug("**********");
+		for (User userList : listOfUsersAfterUpdatingUserById
+		) {
+			LOGGER.debug("AFTER UPDATING: " + userList);
+		}
+
+		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(userForUpdate));
+		Assertions.assertEquals(listSizeAfterUpdating, listSizeAfterSaving);
+	}
 }
