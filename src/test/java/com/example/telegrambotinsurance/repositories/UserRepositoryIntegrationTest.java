@@ -24,7 +24,7 @@ public class UserRepositoryIntegrationTest {
 		int deletingCounts = 0;
 		List<User> listOfUsers = userRepository.findAll();
 		for (User user : listOfUsers) {
-			if (user.getEmail().equals("twoBeerOrNotTwoBeer@drunkard.ru")) {
+			if (user.getEmail().equals("test@example.com")) {
 				userRepository.delete(user);
 				deletingCounts++;
 			}
@@ -37,7 +37,7 @@ public class UserRepositoryIntegrationTest {
 		int deletingCounts = 0;
 		List<User> listOfUsers = userRepository.findAll();
 		for (User user : listOfUsers) {
-			if (user.getEmail().equals("twoBeerOrNotTwoBeer@drunkard.ru")) {
+			if (user.getEmail().equals("test@example.com")) {
 				userRepository.delete(user);
 				deletingCounts++;
 			}
@@ -48,7 +48,7 @@ public class UserRepositoryIntegrationTest {
 	@Test
 	public void whenCalledSave_thenNewUserSavedCorrectly() {
 		String name = String.valueOf(System.currentTimeMillis());
-		String email = "twoBeerOrNotTwoBeer@drunkard.ru";
+		String email = "test@example.com";
 		User user = new User(name, email);
 		long listSizeBeforeSaving;
 		long listSizeAfterSaving;
@@ -58,11 +58,6 @@ public class UserRepositoryIntegrationTest {
 
 		//user`s size field`s
 		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
-		for (User userList : listOfUsersBeforeSavingNewUser
-		) {
-			LOGGER.debug("BEFORE SAVING: " + userList);
-		}
-		LOGGER.debug("**********");
 
 		//saving new user
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
@@ -71,10 +66,6 @@ public class UserRepositoryIntegrationTest {
 		//user`s after save
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
-		for (User userList : listOfUsersAfterSavingNewUser
-		) {
-			LOGGER.debug("AFTER SAVING: " + userList);
-		}
 
 		//assertion
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
@@ -104,20 +95,11 @@ public class UserRepositoryIntegrationTest {
 		listSizeBeforeDeleting = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeBeforeDeleting);
-		for (User userList : listOfUsersAfterSavingNewUser
-		) {
-			LOGGER.debug("AFTER SAVING: " + userList);
-		}
-		LOGGER.debug("**********");
 
 		//deleting new user
 		userRepository.delete(user);
 		List<User> listOfUsersAfterDeletingNewUser = userRepository.findAll();
 		listSizeAfterDeleting = listOfUsersAfterDeletingNewUser.size();
-		for (User userList : listOfUsersAfterDeletingNewUser
-		) {
-			LOGGER.debug("AFTER DELETING: " + userList);
-		}
 
 		Assertions.assertFalse(listOfUsersAfterDeletingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeDeleting - 1, listSizeAfterDeleting);
@@ -137,10 +119,6 @@ public class UserRepositoryIntegrationTest {
 		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
-		for (User userList : listOfUsersBeforeSavingUser
-		) {
-			LOGGER.debug("BEFORE SAVING: " + userList);
-		}
 
 		// taking an element by id
 		userRepository.save(user);
@@ -149,11 +127,6 @@ public class UserRepositoryIntegrationTest {
 		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
-		LOGGER.debug("**********");
-		for (User userList : listOfUsersAfterSavingNewUser
-		) {
-			LOGGER.debug("AFTER SAVING: " + userList);
-		}
 
 		//delay for unique variable "name"
 		Thread.sleep(100);
@@ -165,15 +138,9 @@ public class UserRepositoryIntegrationTest {
 		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(userForUpdate));
 		userRepository.save(userForUpdate);
 
-
 		//checking for a match
 		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
 		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
-		LOGGER.debug("**********");
-		for (User userList : listOfUsersAfterUpdatingUserById
-		) {
-			LOGGER.debug("AFTER UPDATING: " + userList);
-		}
 
 		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(userForUpdate));
 		Assertions.assertEquals(listSizeAfterUpdating, listSizeAfterSaving);
