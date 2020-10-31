@@ -2,6 +2,7 @@ package com.example.telegrambotinsurance.service;
 
 import com.example.telegrambotinsurance.exception.BotNotFoundException;
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
+import com.example.telegrambotinsurance.modelbot.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class BotServiceImpl implements BotService {
             throw new BotNotFoundException();
         }
         return bots.get(token);
+    }
+
+    public void processMessage(Message message) {
+
     }
 }
