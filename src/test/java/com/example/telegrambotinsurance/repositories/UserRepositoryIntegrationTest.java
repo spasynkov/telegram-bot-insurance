@@ -57,7 +57,7 @@ public class UserRepositoryIntegrationTest {
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
 
-		//last check for adding a new user to the database
+		//last check for adding a new user to the database, check database size
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
 	}
@@ -77,7 +77,7 @@ public class UserRepositoryIntegrationTest {
 		//saving new user
 		userRepository.save(user);
 
-		//taking data list size
+		//checking for adding a new user to the database and checking database size
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		listSizeBeforeDeleting = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
@@ -88,46 +88,48 @@ public class UserRepositoryIntegrationTest {
 		List<User> listOfUsersAfterDeletingNewUser = userRepository.findAll();
 		listSizeAfterDeleting = listOfUsersAfterDeletingNewUser.size();
 
+		//checking for deleting a new user from the database and checking database size
 		Assertions.assertFalse(listOfUsersAfterDeletingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeDeleting - 1, listSizeAfterDeleting);
 	}
 
-	//	@Test
-	//	public void whenCalledUpdate_thenUpdatingCorrectly() {
-	//		String name = String.valueOf(System.currentTimeMillis());
-	//		String email = "masterOfUniverse@deathstar.empire";
-	//		User user = new User(name, email);
-	//		Long userId;
-	//		long listSizeBeforeSaving;
-	//		long listSizeAfterSaving;
-	//		long listSizeAfterUpdating;
-	//
-	//		// taking data list
-	//		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
-	//		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
-	//		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
-	//
-	//		// taking an element by id
-	//		userRepository.save(user);
-	//		userId = user.getId();
-	//		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
-	//		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
-	//		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
-	//		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
-	//
-	//
-	//
-	//		// create new user for update
-	//
-	//
-	//		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(userForUpdate));
-	//		userRepository.save(userForUpdate);
-	//
-	//		//checking for a match
-	//		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
-	//		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
-	//
-	//		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(userForUpdate));
-	//		Assertions.assertEquals(listSizeAfterUpdating, listSizeAfterSaving);
-	//	}
+	@Test
+	public void whenCalledUpdate_thenUpdatingCorrectly() {
+		String name = String.valueOf(System.currentTimeMillis());
+		String email = "masterOfUniverse@deathstar.empire";
+		User user = new User(name, email);
+		long listSizeBeforeSaving;
+		long listSizeAfterSaving;
+		long listSizeAfterUpdating;
+
+		//taking list users before save, checking the absence of a new user in the database
+		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
+		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
+		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
+
+		//saving new user
+		userRepository.save(user);
+
+		//checking the absence of a new user in the database and checking the database size change
+		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
+		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
+		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
+
+		//setting new values name and email for our user
+		user.setName(NAME);
+		user.setEmail(EMAIL);
+
+		//checking the absence of a new user in the database
+		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(user));
+
+		//saving user after changes
+		userRepository.save(user);
+
+		//checking for updating a new user to the database and checking database size
+		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
+		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
+		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(user));
+		Assertions.assertEquals(listSizeAfterUpdating, listSizeAfterSaving);
+	}
 }
