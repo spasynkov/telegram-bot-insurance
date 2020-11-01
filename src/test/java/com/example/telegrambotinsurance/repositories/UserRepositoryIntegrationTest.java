@@ -71,7 +71,8 @@ public class UserRepositoryIntegrationTest {
 		long listSizeBeforeDeleting;
 		long listSizeAfterDeleting;
 
-		//taking list users before save and checking the absence of a new user in the database
+		/* taking list users before save, checking the absence of a new user in the database,
+		   user shouldn't be there */
 		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
@@ -104,7 +105,8 @@ public class UserRepositoryIntegrationTest {
 		long listSizeAfterSaving;
 		long listSizeAfterUpdating;
 
-		//taking list users before save, checking the absence of a new user in the database
+		/* taking list users before save, checking the absence of a new user in the database,
+		   user shouldn't be there */
 		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
@@ -112,9 +114,11 @@ public class UserRepositoryIntegrationTest {
 		//saving new user
 		userRepository.save(user);
 
-		//checking the absence of a new user in the database and checking the database size change
+		//checking the absence of a new user in the database, user shouldn't be there
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+
+		//checking the database size change
 		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
 
