@@ -18,6 +18,7 @@ public class UserRepositoryIntegrationTest {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserRepositoryIntegrationTest.class);
 	private static final String NAME = "testUser";
 	private static final String EMAIL = "test@example.com";
+	private static int deletingCounts = 0;
 	@Autowired
 	UserRepository userRepository;
 
@@ -25,14 +26,13 @@ public class UserRepositoryIntegrationTest {
 	public static void deletingTestObjects(@Autowired UserRepository userRepository) {delete(userRepository);}
 
 	private static void delete(@Autowired UserRepository userRepository) {
-		int deletingCounts = 0;
 		List<User> listOfUsers = userRepository.findAll();
 		for(User user : listOfUsers) {
 			if(user.getEmail().equals("test@example.com")) {
 				userRepository.delete(user);
 			}
-			deletingCounts++;
 		}
+		deletingCounts++;
 		LOGGER.debug("Count of deleting operations  after test: " + deletingCounts);
 	}
 
@@ -49,8 +49,10 @@ public class UserRepositoryIntegrationTest {
 		List<User> listOfUsersBeforeSavingNewUser = userRepository.findAll();
 		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
 
-		//checking the absence of a new user in the database and saving new user
+		//checking the absence of a new user in the database, user shouldn't be there
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
+
+		//saving new user
 		userRepository.save(user);
 
 		//user`s list after save

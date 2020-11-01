@@ -7,6 +7,7 @@ import lombok.*;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(exclude = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
