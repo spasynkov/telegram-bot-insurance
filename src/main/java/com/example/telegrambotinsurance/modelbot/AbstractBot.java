@@ -13,4 +13,7 @@ public class AbstractBot {
         this.token = token;
     }
 
+    public void processMessage(Message message) {
+
+    }
 }

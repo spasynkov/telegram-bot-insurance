@@ -7,6 +7,4 @@ import com.example.telegrambotinsurance.modelbot.Message;
 public interface BotService {
     //Метод ищет бота по токену
     AbstractBot findBotByToken(String token) throws BotNotFoundException;
-
-    void processMessage(Message message);
 }
