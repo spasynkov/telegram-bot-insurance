@@ -30,8 +30,8 @@ public class UserRepositoryIntegrationTest {
 		for(User user : listOfUsers) {
 			if(user.getEmail().equals("test@example.com")) {
 				userRepository.delete(user);
-				deletingCounts++;
 			}
+			deletingCounts++;
 		}
 		LOGGER.debug("Count of deleting operations  after test: " + deletingCounts);
 	}
@@ -49,15 +49,15 @@ public class UserRepositoryIntegrationTest {
 		List<User> listOfUsersBeforeSavingNewUser = userRepository.findAll();
 		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
 
-		//saving new user
+		//checking the absence of a new user in the database and saving new user
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
 		userRepository.save(user);
 
-		//user`s after save
+		//user`s list after save
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
 
-		//last check for adding a new user to the database, check database size
+		//last check for adding a new user to the database and  checking database size
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
 	}
@@ -69,7 +69,7 @@ public class UserRepositoryIntegrationTest {
 		long listSizeBeforeDeleting;
 		long listSizeAfterDeleting;
 
-		//taking list users before save
+		//taking list users before save and checking the absence of a new user in the database
 		List<User> listOfUsersBeforeSavingUser = userRepository.findAll();
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
