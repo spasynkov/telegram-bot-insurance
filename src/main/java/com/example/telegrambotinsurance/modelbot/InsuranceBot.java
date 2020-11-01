@@ -14,6 +14,7 @@ public class InsuranceBot extends AbstractBot{
         super(token);
     }
 
+    @Override
     public void processMessage(Message message) {
 
     }

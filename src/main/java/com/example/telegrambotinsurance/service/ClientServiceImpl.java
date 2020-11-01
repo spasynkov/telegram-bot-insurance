@@ -18,12 +18,16 @@ public class ClientServiceImpl implements ClientService {
 		this.botService = botService;
 	}
 
+	// Метод получает бота оп токену, преобразует  JSONObject в объект Message
+	// и предаёт этот объект бот через метод processMessage
 	public void createMessage(String token, JSONObject jsonObject) throws BotNotFoundException, JsonProcessingException {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		// олучаем бот по токену.
 		AbstractBot bot = botService.findBotByToken(token);
 
-		ObjectMapper objectMapper = new ObjectMapper();
+		// Получаем объект сообщение Message из объекта JSONObject.
 		String jsonString = jsonObject.toString();
-
 		Message message = objectMapper.readValue(jsonString, Message.class);
 		bot.processMessage(message);
 	}
