@@ -13,4 +13,8 @@ public class InsuranceBot extends AbstractBot{
     public InsuranceBot(@Value("${bot.insurance.token}") String token) {
         super(token);
     }
+
+    public void processMessage(Message message) {
+
+    }
 }
