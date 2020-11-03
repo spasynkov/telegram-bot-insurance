@@ -81,7 +81,7 @@ public class UserRepositoryIntegrationTest {
 		//saving new user to test delete on it
 		userRepository.save(user);
 
-		//checking for adding a new user to the database
+		//checking for adding a new user to the database, user must be there
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
 
@@ -131,14 +131,13 @@ public class UserRepositoryIntegrationTest {
 		user.setName(NAME);
 		user.setEmail(EMAIL);
 
-		//checking the absence of a new user in the database
+		//checking the absence of a new user in the database, user shouldn't be there
 		Assertions.assertFalse(listOfUsersAfterSavingNewUser.contains(user));
 
 		//saving user after changes
 		userRepository.save(user);
 
-		//checking for updating a new user to the database
-
+		//checking for updating a new user to the database, user should be there
 		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
 		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(user));
 
