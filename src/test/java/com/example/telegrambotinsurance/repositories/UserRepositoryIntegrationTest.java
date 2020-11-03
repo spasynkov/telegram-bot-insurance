@@ -137,10 +137,13 @@ public class UserRepositoryIntegrationTest {
 		//saving user after changes
 		userRepository.save(user);
 
-		//checking for updating a new user to the database and checking database size
+		//checking for updating a new user to the database
+
 		List<User> listOfUsersAfterUpdatingUserById = userRepository.findAll();
-		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
 		Assertions.assertTrue(listOfUsersAfterUpdatingUserById.contains(user));
+
+		// checking database size
+		listSizeAfterUpdating = listOfUsersAfterUpdatingUserById.size();
 		Assertions.assertEquals(listSizeAfterUpdating, listSizeAfterSaving);
 	}
 }
