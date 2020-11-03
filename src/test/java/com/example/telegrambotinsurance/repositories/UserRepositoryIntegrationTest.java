@@ -47,20 +47,21 @@ public class UserRepositoryIntegrationTest {
 
 		//taking list users before save
 		List<User> listOfUsersBeforeSavingNewUser = userRepository.findAll();
-		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
 
 		//checking the absence of a new user in the database, user shouldn't be there
 		Assertions.assertFalse(listOfUsersBeforeSavingNewUser.contains(user));
+		listSizeBeforeSaving = listOfUsersBeforeSavingNewUser.size();
 
 		//saving new user
 		userRepository.save(user);
 
 		//user`s list after save
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
-		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
-
-		//last check for adding a new user to the database and  checking database size
+		//last check for adding a new user to the database
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+
+		//checking database size
+		listSizeAfterSaving = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeAfterSaving);
 	}
 
