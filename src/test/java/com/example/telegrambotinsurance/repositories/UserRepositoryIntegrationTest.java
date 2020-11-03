@@ -78,22 +78,26 @@ public class UserRepositoryIntegrationTest {
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
 
-		//saving new user
+		//saving new user to test delete on it
 		userRepository.save(user);
 
-		//checking for adding a new user to the database and checking database size
+		//checking for adding a new user to the database
 		List<User> listOfUsersAfterSavingNewUser = userRepository.findAll();
-		listSizeBeforeDeleting = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertTrue(listOfUsersAfterSavingNewUser.contains(user));
+
+		//checking database size
+		listSizeBeforeDeleting = listOfUsersAfterSavingNewUser.size();
 		Assertions.assertEquals(listSizeBeforeSaving + 1, listSizeBeforeDeleting);
 
 		//deleting new user
 		userRepository.delete(user);
-		List<User> listOfUsersAfterDeletingNewUser = userRepository.findAll();
-		listSizeAfterDeleting = listOfUsersAfterDeletingNewUser.size();
 
-		//checking for deleting a new user from the database and checking database size
+		//checking for deleting a new user from the database
+		List<User> listOfUsersAfterDeletingNewUser = userRepository.findAll();
 		Assertions.assertFalse(listOfUsersAfterDeletingNewUser.contains(user));
+
+		//checking database size
+		listSizeAfterDeleting = listOfUsersAfterDeletingNewUser.size();
 		Assertions.assertEquals(listSizeBeforeDeleting - 1, listSizeAfterDeleting);
 	}
 
@@ -112,7 +116,7 @@ public class UserRepositoryIntegrationTest {
 		Assertions.assertFalse(listOfUsersBeforeSavingUser.contains(user));
 		listSizeBeforeSaving = listOfUsersBeforeSavingUser.size();
 
-		//saving new user
+		//saving new user to test update on it
 		userRepository.save(user);
 
 		//checking the absence of a new user in the database, user shouldn't be there
