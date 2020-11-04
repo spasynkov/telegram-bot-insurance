@@ -23,5 +23,4 @@ public class BotConfigs {
 		}
 		return sortedBots;
 	}
-
 }
