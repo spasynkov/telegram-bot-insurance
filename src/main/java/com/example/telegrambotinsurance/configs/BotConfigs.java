@@ -12,7 +12,7 @@ import java.util.Map;
 @Configuration
 public class BotConfigs {
 
-	//    Создание Map с ключами в виде токенов и значениями в виде самих ботов
+	//Создание Map с ключами в виде токенов и значениями в виде самих ботов
 	@Bean("BotsWithTokens")
 	@Autowired
 	public Map<String, AbstractBot> createBotsMapWithTokens(List<AbstractBot> bots) {
