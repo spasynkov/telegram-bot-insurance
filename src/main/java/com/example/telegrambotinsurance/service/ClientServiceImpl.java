@@ -29,6 +29,7 @@ public class ClientServiceImpl implements ClientService {
 		// Получаем объект сообщение Message из объекта JSONObject.
 		String jsonString = jsonObject.toString();
 		Message message = objectMapper.readValue(jsonString, Message.class);
+
 		bot.processMessage(message);
 	}
 }
