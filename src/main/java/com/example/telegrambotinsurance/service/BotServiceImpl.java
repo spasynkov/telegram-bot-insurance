@@ -23,7 +23,8 @@ public class BotServiceImpl implements BotService {
     public AbstractBot findBotByToken(String token) throws BotNotFoundException {
         if (!bots.containsKey(token)){
             //Если бот не найден, то вылетает ошибка
-            throw new BotNotFoundException();
+            String error = "Unable to find bot with token" + "'<" + token + ">'";
+            throw new BotNotFoundException(error);
         }
         return bots.get(token);
     }

@@ -1,8 +1,6 @@
 package com.example.telegrambotinsurance.controller;
 
-import com.example.telegrambotinsurance.exception.BotNotFoundException;
 import com.example.telegrambotinsurance.service.ClientService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +24,9 @@ public class ClientController {
 			clientService.createMessage(token, jsonObject);
 			return "{\"status\":\"ok\"}";
 		}
-		catch (BotNotFoundException | JsonProcessingException e) {
+		catch (Exception e) {
 			String error = "ОК";
-			return "{\"error\":\"" + e +"\"}";
+			return "{\"error\":\"" + e.getMessage() +"\"}";
 		}
 	}
 }
