@@ -6,7 +6,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Класс рест контролеов.
+ * Класс обработки всез запросов от клиета с телеграм (POST, GET, PUT, DELETE).
  */
 
 @RestController
