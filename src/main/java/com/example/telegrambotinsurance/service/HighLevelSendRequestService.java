@@ -14,4 +14,14 @@ public class HighLevelSendRequestService {
 	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message, JSONObject json){
 		return new JSONObject();
 	}
+
+	public String getChat(Integer chatId){
+		String chatName = "Some name";
+		return chatName;
+	}
+
+	public Integer getChat(String chatName){
+		Integer chatId = 0;
+		return chatId;
+	}
 }
