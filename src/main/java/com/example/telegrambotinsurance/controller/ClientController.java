@@ -6,7 +6,11 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 /**
+<<<<<<< HEAD
  * Класс обработки всез запросов от клиета с телеграм (POST, GET, PUT, DELETE).
+=======
+ * Класс рест контролеов.
+>>>>>>> origin/Tas#9_Create-app-entry-point_BabinVas
  */
 
 @RestController
