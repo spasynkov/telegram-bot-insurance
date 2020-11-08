@@ -18,9 +18,9 @@ public class ClientServiceImpl implements ClientService {
 		this.botService = botService;
 	}
 
-	// Метод получает бота по токену, преобразует JSONObject в объект Message
-	// и предаёт этот объект бот через метод processMessage
-	public void createMessage(String token, JSONObject jsonObject) throws BotNotFoundException, JsonProcessingException {
+	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
+	// и предаёт этот объект Message полученному боту через метод processMessage
+	public void convertDataToMessageObjectAndSendItBot(String token, JSONObject jsonObject) throws BotNotFoundException, JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		// Получаем бот по токену.
@@ -30,6 +30,7 @@ public class ClientServiceImpl implements ClientService {
 		String jsonString = jsonObject.toString();
 		Message message = objectMapper.readValue(jsonString, Message.class);
 
+		// Предаёт объект Message полученному боту
 		bot.processMessage(message);
 	}
 }

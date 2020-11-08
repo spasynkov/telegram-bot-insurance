@@ -19,13 +19,12 @@ public class ClientController {
 	}
 
 	@PostMapping("/rest/{token}")
-	public String getClientPostRequest(@PathVariable("token") String token, JSONObject jsonObject) {
+	public String receiveAndProcessIncomingMessage(@PathVariable("token") String token, JSONObject jsonObject) {
 		try {
-			clientService.createMessage(token, jsonObject);
+			clientService.convertDataToMessageObjectAndSendItBot(token, jsonObject);
 			return "{\"status\":\"ok\"}";
 		}
 		catch (Exception e) {
-			String error = "ОК";
 			return "{\"error\":\"" + e.getMessage() +"\"}";
 		}
 	}
