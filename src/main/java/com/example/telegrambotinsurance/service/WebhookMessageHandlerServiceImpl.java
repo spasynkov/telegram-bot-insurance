@@ -10,11 +10,11 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientServiceImpl implements ClientService {
+public class WebhookMessageHandlerServiceImpl implements WebhookMessageHandlerService {
 	private final BotService botService;
 
 	@Autowired
-	public ClientServiceImpl(BotService botService) {
+	public WebhookMessageHandlerServiceImpl(BotService botService) {
 		this.botService = botService;
 	}
 

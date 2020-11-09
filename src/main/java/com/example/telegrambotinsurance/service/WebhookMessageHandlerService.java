@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public interface ClientService {
+public interface WebhookMessageHandlerService {
 	// Метод получает бота по токену, преобразует JSONObject в объект Message
 	// и предаёт этот объект бот через метод processMessage
 	void convertDataToMessageObjectAndSendItBot(String token, JSONObject jsonObject) throws BotNotFoundException, JsonProcessingException;
