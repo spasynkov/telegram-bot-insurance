@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-	private BotService botService;
+	private final BotService botService;
 
 	@Autowired
 	public ClientServiceImpl(BotService botService) {

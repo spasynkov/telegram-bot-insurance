@@ -1,7 +1,7 @@
 package com.example.telegrambotinsurance.modelbot;
 
 
-public class AbstractBot {
+public abstract class AbstractBot {
     //Уникальный и неизменяемый токен
     protected final String token;
 
@@ -13,7 +13,5 @@ public class AbstractBot {
         this.token = token;
     }
 
-    public void processMessage(Message message) {
-
-    }
+    public abstract void processMessage(Message message);
 }
