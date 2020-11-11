@@ -22,8 +22,7 @@ public class WebhookMessageHandlerController {
 	@PostMapping("/rest/{token}")
 	public String receiveAndProcessIncomingMessage(@PathVariable("token") String token, @RequestBody JSONObject jsonObject) {
 		try {
-			webhookMessageHandlerService.convertDataToMessageObjectAndSendItToBot(token, jsonObject);
-			return "{\"status\":\"ok\"}";
+			return webhookMessageHandlerService.convertDataToMessageObjectAndSendItToBot(token, jsonObject);
 		}
 		catch (Exception e) {
 			return "{\"error\":\"" + e.getMessage() +"\"}";

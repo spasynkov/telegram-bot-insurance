@@ -20,7 +20,7 @@ public class WebhookMessageHandlerServiceImpl implements WebhookMessageHandlerSe
 
 	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
 	// и передаёт этот объект Message полученному боту через метод processMessage
-	public void convertDataToMessageObjectAndSendItToBot(String token, JSONObject jsonObject) throws BotNotFoundException {
+	public String convertDataToMessageObjectAndSendItToBot(String token, JSONObject jsonObject) throws BotNotFoundException {
 		// Получение бот по токену.
 		AbstractBot bot = botService.findBotByToken(token);
 
@@ -37,5 +37,7 @@ public class WebhookMessageHandlerServiceImpl implements WebhookMessageHandlerSe
 
 		// Передаёт объект Message в метод полученному боту
 		bot.processMessage(message);
+
+		return "{\"status\":\"ok\"}";
 	}
 }
