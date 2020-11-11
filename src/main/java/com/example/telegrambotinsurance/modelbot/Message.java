@@ -42,6 +42,6 @@ public class Message {
 	}
 
 	public String toString() {
-		return "{"+ message_id + " - " + date + " - " + text + "}";
+		return "{message_id: "+ message_id + ", date: " + date + ", text: " + text + "}";
 	}
 }

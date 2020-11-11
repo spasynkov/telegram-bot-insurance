@@ -1,8 +1,8 @@
 package com.example.telegrambotinsurance.controller;
 
 import com.example.telegrambotinsurance.service.WebhookMessageHandlerService;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class WebhookMessageHandlerController {
-	private WebhookMessageHandlerService webhookMessageHandlerService;
+	private final WebhookMessageHandlerService webhookMessageHandlerService;
 
 	@Autowired
 	WebhookMessageHandlerController(WebhookMessageHandlerService webhookMessageHandlerService) {
@@ -20,9 +20,9 @@ public class WebhookMessageHandlerController {
 
 	// Метод слушает POST запросы по токену определённого бота, обрабатывает полученные сообщения и предаёт их сервису.
 	@PostMapping("/rest/{token}")
-	public String receiveAndProcessIncomingMessage(@PathVariable("token") String token, JSONObject jsonObject) {
+	public String receiveAndProcessIncomingMessage(@PathVariable("token") String token, @RequestBody JSONObject jsonObject) {
 		try {
-			webhookMessageHandlerService.convertDataToMessageObjectAndSendItBot(token, jsonObject);
+			webhookMessageHandlerService.convertDataToMessageObjectAndSendItToBot(token, jsonObject);
 			return "{\"status\":\"ok\"}";
 		}
 		catch (Exception e) {
