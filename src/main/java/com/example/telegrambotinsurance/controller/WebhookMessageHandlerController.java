@@ -25,7 +25,8 @@ public class WebhookMessageHandlerController {
 			return webhookMessageHandlerService.convertDataToMessageObjectAndSendItToBot(token, jsonObject);
 		}
 		catch (Exception e) {
-			return "{\"error\":\"" + e.getMessage() +"\"}";
+			String exceptionAnswer = e.getMessage() == null || e.getMessage().isEmpty() ? e.getClass().getSimpleName() : e.getMessage();
+			return String.format("{\"error\":\"%s\"}", exceptionAnswer);
 		}
 	}
 }
