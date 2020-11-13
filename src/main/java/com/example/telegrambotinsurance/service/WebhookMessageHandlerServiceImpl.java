@@ -1,9 +1,8 @@
 package com.example.telegrambotinsurance.service;
 
-import com.example.telegrambotinsurance.exception.BotNotFoundException;
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.Message;
-import net.minidev.json.JSONObject;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +19,38 @@ public class WebhookMessageHandlerServiceImpl implements WebhookMessageHandlerSe
 
 	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
 	// и передаёт этот Message объект полученному боту через метод processMessage
-	public String convertDataToMessageObjectAndSendItToBot(String token, JSONObject jsonObject) throws BotNotFoundException {
+	public String convertDataToMessageObjectAndSendItToBot(String token, JSONObject jsonObject) throws Exception {
 		AbstractBot bot = botService.findBotByToken(token);
 
-		long message_id = jsonObject.getAsNumber("message_id").longValue();
+		if (jsonObject == null) {
+			throw new Exception("Преданный jsonObject объект в метод convertDataToMessageObjectAndSendItToBot класса WebhookHandlerServiceImpl равен null.");
+		}
 
-		long millisecondsForDate = jsonObject.getAsNumber("date").longValue();
-		Date date = new Date(millisecondsForDate);
+		if (jsonObject.isEmpty()) {
+			throw new Exception("Предан пустой jsonObject объект в метод convertDataToMessageObjectAndSendItToBot класса WebhookHandlerServiceImpl.");
+		}
 
-		String text = jsonObject.getAsString("text");
+		if (jsonObject.has("message")) {
+			JSONObject messageJsonObject = jsonObject.getJSONObject("message");
 
-		Message message = new Message(message_id, date, text);
-		bot.processMessage(message);
+			if (!messageJsonObject.isEmpty()) {
+				Message message = new Message();
+
+				long message_id = messageJsonObject.getLong("message_id");
+				message.setMessage_id(message_id);
+
+				long millisecondsForDate = messageJsonObject.getLong("date");
+				Date date = new Date(millisecondsForDate);
+				message.setDate(date);
+
+				if (jsonObject.has("text")) {
+					String text = messageJsonObject.getString("text");
+					message.setText(text);
+				}
+
+				bot.processMessage(message);
+			}
+		}
 
 		return "{\"status\":\"ok\"}";
 	}
