@@ -18,7 +18,8 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	}
 
 	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
-	// и передаёт этот Message объект полученному боту через метод processMessage
+	// и передаёт этот Message объект полученному боту.
+	// @return status.
 	public String receiveAndProcessMessage(String token, JSONObject jsonObject) throws Exception {
 		AbstractBot bot = botService.findBotByToken(token);
 
@@ -43,7 +44,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 				Date date = new Date(millisecondsForDate);
 				message.setDate(date);
 
-				if (jsonObject.has("text")) {
+				if (messageJsonObject.has("text") && !messageJsonObject.isNull("text")) {
 					String text = messageJsonObject.getString("text");
 					message.setText(text);
 				}

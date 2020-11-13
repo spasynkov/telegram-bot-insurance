@@ -22,6 +22,7 @@ public class WebhookHandlerController {
 	}
 
 	// Метод слушает POST запросы по токену определённого бота, обрабатывает полученные сообщения и предаёт их сервису.
+	// @return status или error.
 	@PostMapping("/rest/{token}")
 	public String receiveAndProcessMessage(@PathVariable("token") String token, @RequestBody JSONObject jsonObject) {
 		try {
