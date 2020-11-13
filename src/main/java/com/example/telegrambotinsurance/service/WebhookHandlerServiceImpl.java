@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class WebhookMessageHandlerServiceImpl implements WebhookMessageHandlerService {
+public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	private final BotService botService;
 
 	@Autowired
-	public WebhookMessageHandlerServiceImpl(BotService botService) {
+	public WebhookHandlerServiceImpl(BotService botService) {
 		this.botService = botService;
 	}
 
 	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
 	// и передаёт этот Message объект полученному боту через метод processMessage
-	public String convertDataToMessageObjectAndSendItToBot(String token, JSONObject jsonObject) throws Exception {
+	public String receiveAndProcessMessage(String token, JSONObject jsonObject) throws Exception {
 		AbstractBot bot = botService.findBotByToken(token);
 
 		if (jsonObject == null) {
