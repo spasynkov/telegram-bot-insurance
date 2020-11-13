@@ -47,9 +47,15 @@ public class SendRequestsService {
 		}
 		catch (ArrayIndexOutOfBoundsException e){
 			LOGGER.debug("Введены не правильные параметры для прокси-соединения. Соединение запущено напрямую.");
+			webClient = WebClient.builder()
+					.baseUrl(BASEURL)
+					.build();
 		}
 		catch (NumberFormatException e){
-			LOGGER.debug("Порт должен быть числом.");
+			LOGGER.debug("Порт должен быть числом. Соединение запущено напрямую.");
+			webClient = WebClient.builder()
+					.baseUrl(BASEURL)
+					.build();
 		}
 	}
 
