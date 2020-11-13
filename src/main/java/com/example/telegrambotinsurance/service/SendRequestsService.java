@@ -16,16 +16,16 @@ import reactor.netty.tcp.ProxyProvider;
 public class SendRequestsService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
 
-	//@Value("${service.proxy}")
-	//private String proxyValue;
+
+	private String proxyValue;
 
 	private static WebClient webClient;
 
-	public SendRequestsService() {
-		/*System.out.println(proxyValue);
-		if (proxyValue != null || !proxyValue.isEmpty()){
-			String proxyIP = proxyValue.split(":")[0];
-			int proxyPort = Integer.parseInt(proxyValue.split(":")[1]);
+	public SendRequestsService(@Value("${service.proxy:}") String proxyValue) {
+		this.proxyValue = proxyValue;
+		if (!this.proxyValue.isEmpty()){
+			String proxyIP = this.proxyValue.split(":")[0];
+			int proxyPort = Integer.parseInt(this.proxyValue.split(":")[1]);
 			HttpClient httpClient = HttpClient.create()
 					.tcpConfiguration(tcpClient -> tcpClient
 							.proxy(proxy -> proxy
@@ -40,16 +40,13 @@ public class SendRequestsService {
 					.build();
 		}
 		else{
-
-		 */
 			webClient = WebClient.builder()
 					.baseUrl("https://api.telegram.org")
 					.build();
-		//}
+		}
 	}
 
 	public JSONObject sendGet(String token, String apiMethodName) {
-
 		String uri = "/bot" + token + "/" + apiMethodName;
 		LOGGER.debug("https://api.telegram.org" + uri);
 
