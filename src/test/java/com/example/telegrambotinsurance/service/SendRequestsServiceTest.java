@@ -1,10 +1,9 @@
 package com.example.telegrambotinsurance.service;
 
+//ToDo - заменить на org.json.JSONObject
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,5 +26,8 @@ class SendRequestsServiceTest {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
 				"{\"chat_id\":-1001484722738, \"text\":\"Testing sendPost()\"}");
 		Assertions.assertNotNull(response);
+		if (((boolean)response.get("ok")) == false){
+			Assertions.fail("Неправильный ответ от серверов телеграма поле: ok = false");
+		}
 	}
 }
