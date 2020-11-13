@@ -1,6 +1,9 @@
 package com.example.telegrambotinsurance.service;
 
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import net.minidev.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
@@ -11,45 +14,60 @@ import reactor.netty.tcp.ProxyProvider;
 
 @Service
 public class SendRequestsService {
-	public JSONObject sendGet(String token, String apiMethodName) {
-		HttpClient httpClient = HttpClient.create()
-				.tcpConfiguration(tcpClient -> tcpClient
-						.proxy(proxy -> proxy
-								.type(ProxyProvider.Proxy.HTTP)
-								.host("138.197.106.52")
-								.port(80)));
-		ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
 
-		WebClient webClient = WebClient.builder()
-				.clientConnector(connector)
-				.baseUrl("https://api.telegram.org")
-				.build();
+	//@Value("${service.proxy}")
+	//private String proxyValue;
+
+	private static WebClient webClient;
+
+	public SendRequestsService() {
+		/*System.out.println(proxyValue);
+		if (proxyValue != null || !proxyValue.isEmpty()){
+			String proxyIP = proxyValue.split(":")[0];
+			int proxyPort = Integer.parseInt(proxyValue.split(":")[1]);
+			HttpClient httpClient = HttpClient.create()
+					.tcpConfiguration(tcpClient -> tcpClient
+							.proxy(proxy -> proxy
+									.type(ProxyProvider.Proxy.HTTP)
+									.host(proxyIP)
+									.port(proxyPort)));
+			ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
+
+			webClient = WebClient.builder()
+					.clientConnector(connector)
+					.baseUrl("https://api.telegram.org")
+					.build();
+		}
+		else{
+
+		 */
+			webClient = WebClient.builder()
+					.baseUrl("https://api.telegram.org")
+					.build();
+		//}
+	}
+
+	public JSONObject sendGet(String token, String apiMethodName) {
+
+		String uri = "/bot" + token + "/" + apiMethodName;
+		LOGGER.debug("https://api.telegram.org" + uri);
 
 		JSONObject response = webClient.get()
-								.uri("/bot" + token + "/" + apiMethodName)
-								.retrieve()
-								.bodyToMono(JSONObject.class)
-								.block();
+				.uri(uri)
+				.retrieve()
+				.bodyToMono(JSONObject.class)
+				.block();
 
 		return response;
 	}
 
 	public JSONObject sendPost(String token, String apiMethodName, String jsonBody) {
-		HttpClient httpClient = HttpClient.create()
-				.tcpConfiguration(tcpClient -> tcpClient
-						.proxy(proxy -> proxy
-								.type(ProxyProvider.Proxy.HTTP)
-								.host("138.197.106.52")
-								.port(80)));
-		ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
-
-		WebClient webClient = WebClient.builder()
-				.clientConnector(connector)
-				.baseUrl("https://api.telegram.org")
-				.build();
+		String uri = "/bot" + token + "/" + apiMethodName;
+		LOGGER.debug("https://api.telegram.org" + uri);
 
 		JSONObject response = webClient.post()
-				.uri("/bot" + token + "/" + apiMethodName)
+				.uri(uri)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(BodyInserters.fromValue(jsonBody))
