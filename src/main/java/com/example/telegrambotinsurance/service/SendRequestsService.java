@@ -16,15 +16,18 @@ import reactor.netty.tcp.ProxyProvider;
 @Service
 public class SendRequestsService {
 	private final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
+	//Строка с IP и портом
 	private String proxyValue;
+	//Базовая URL телеграма
 	private final String BASEURL = "https://api.telegram.org";
 
 	private WebClient webClient;
 
+	//Конструктор в который НЕ надо ничего передавать
 	public SendRequestsService(@Value("${proxy:}") String proxyValue) {
 		try {
 			this.proxyValue = proxyValue;
-			if (!this.proxyValue.isEmpty()) {
+			if (!this.proxyValue.isEmpty()) { //Проверка используется ли прокси или нет
 				String proxyIP = this.proxyValue.split(":")[0];
 				int proxyPort = Integer.parseInt(this.proxyValue.split(":")[1]);
 				HttpClient httpClient = HttpClient.create()
@@ -45,13 +48,13 @@ public class SendRequestsService {
 						.build();
 			}
 		}
-		catch (ArrayIndexOutOfBoundsException e){
+		catch (ArrayIndexOutOfBoundsException e){//Эта ошибка вылетает, если пользователь не правильно ввел прокси
 			LOGGER.debug("Введены не правильные параметры для прокси-соединения. Соединение запущено напрямую.");
 			webClient = WebClient.builder()
 					.baseUrl(BASEURL)
 					.build();
 		}
-		catch (NumberFormatException e){
+		catch (NumberFormatException e){//Ошибка, если пользователь ввел порт НЕ цифрами
 			LOGGER.debug("Порт должен быть числом. Соединение запущено напрямую.");
 			webClient = WebClient.builder()
 					.baseUrl(BASEURL)
@@ -59,10 +62,12 @@ public class SendRequestsService {
 		}
 	}
 
+	//Метод GET-запроса на телеграм
 	public JSONObject sendGet(String token, String apiMethodName) {
 		String uri = "/bot" + token + "/" + apiMethodName;
 		LOGGER.debug(BASEURL + uri);
 
+		//Получение ответа от телеграма
 		JSONObject response = webClient.get()
 				.uri(uri)
 				.retrieve()
@@ -72,10 +77,12 @@ public class SendRequestsService {
 		return response;
 	}
 
+	//Метод POST-запроса на телеграм
 	public JSONObject sendPost(String token, String apiMethodName, String jsonBody) {
 		String uri = "/bot" + token + "/" + apiMethodName;
 		LOGGER.debug(BASEURL + uri);
 
+		//Получение ответа от телеграма
 		JSONObject response = webClient.post()
 				.uri(uri)
 				.accept(MediaType.APPLICATION_JSON)
