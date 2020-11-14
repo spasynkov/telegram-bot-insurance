@@ -26,8 +26,6 @@ class SendRequestsServiceTest {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
 				"{\"chat_id\":-1001484722738, \"text\":\"Testing sendPost()\"}");
 		Assertions.assertNotNull(response);
-		if (((boolean)response.get("ok")) == false){
-			Assertions.fail("Неправильный ответ от серверов телеграма поле: ok = false");
-		}
+		Assertions.assertTrue((boolean)response.get("ok"),"Неправильный ответ от серверов телеграма поле: ok = false");
 	}
 }
