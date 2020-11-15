@@ -11,24 +11,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class SendRequestsServiceTest {
-	//Здесь Spring вносит значения в нужные поля
+	//Здесь Spring вносит значения в нужное поля
 	@Autowired
 	SendRequestsService sendRequestsService;
 
-	//Здесь Spring вносит значения в нужные поля
+	//Здесь Spring вносит значения в нужное поля
 	@Value("${bot.insurance.token}") String token;
 
-	//Проверка ответа от метода sendGet
+	/**
+	 * Проверка ответа от метода sendGet
+	 */
 	@Test
 	void sendGet() {
 		JSONObject response = sendRequestsService.sendGet(token,"getMe");
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertTrue((boolean)response.get("ok"),"Неправильный ответ от серверов телеграма поле: ok = false");
+		Assertions.assertTrue("true".equals(response.getAsString("ok")),"Wrong response from telegram servers, field: ok = false");
 	}
 
-	//Проверка ответа от метода sendGet и отправка сообщения "Testing sendPost()"
+	/**
+	 * Проверка ответа от метода sendGet и отправка сообщения "Testing sendPost()"
+	 */
 	@Test
 	void sendPost() {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
@@ -36,6 +40,6 @@ class SendRequestsServiceTest {
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertTrue((boolean)response.get("ok"),"Неправильный ответ от серверов телеграма поле: ok = false");
+		Assertions.assertTrue("true".equals(response.getAsString("ok")),"Wrong response from telegram servers, field: ok = false");
 	}
 }

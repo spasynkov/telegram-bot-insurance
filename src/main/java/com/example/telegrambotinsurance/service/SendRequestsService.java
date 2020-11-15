@@ -15,57 +15,42 @@ import reactor.netty.tcp.ProxyProvider;
 
 @Service
 public class SendRequestsService {
-	private final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
 	//Строка с IP и портом
 	private String proxyValue;
 	//Базовая URL телеграма
-	private final String BASEURL = "https://api.telegram.org";
+	private final String baseUrl = "https://api.telegram.org";
+	private final String messageUnableToSetProxy = "Unable to set proxy. Using direct connection for requests.";
 
 	private WebClient webClient;
 
-	//Конструктор в который НЕ надо ничего передавать
 	public SendRequestsService(@Value("${proxy:}") String proxyValue) {
 		try {
 			this.proxyValue = proxyValue;
 			if (!this.proxyValue.isEmpty()) { //Проверка используется ли прокси или нет
 				String proxyIP = this.proxyValue.split(":")[0];
 				int proxyPort = Integer.parseInt(this.proxyValue.split(":")[1]);
-				HttpClient httpClient = HttpClient.create()
-						.tcpConfiguration(tcpClient -> tcpClient
-								.proxy(proxy -> proxy
-										.type(ProxyProvider.Proxy.HTTP)
-										.host(proxyIP)
-										.port(proxyPort)));
-				ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
-
-				webClient = WebClient.builder()
-						.clientConnector(connector)
-						.baseUrl(BASEURL)
-						.build();
+				createProxifiedWebClient(proxyIP,proxyPort);
 			} else {
-				webClient = WebClient.builder()
-						.baseUrl(BASEURL)
-						.build();
+				createDefaultWebClient();
 			}
 		}
-		catch (ArrayIndexOutOfBoundsException e){//Эта ошибка вылетает, если пользователь не правильно ввел прокси
-			LOGGER.debug("Введены не правильные параметры для прокси-соединения. Соединение запущено напрямую.");
-			webClient = WebClient.builder()
-					.baseUrl(BASEURL)
-					.build();
-		}
-		catch (NumberFormatException e){//Ошибка, если пользователь ввел порт НЕ цифрами
-			LOGGER.debug("Порт должен быть числом. Соединение запущено напрямую.");
-			webClient = WebClient.builder()
-					.baseUrl(BASEURL)
-					.build();
+		//ArrayIndexOutOfBoundsException, если пользователь не правильно ввел прокси
+		//NumberFormatException, если пользователь ввел порт НЕ цифрами
+		catch (ArrayIndexOutOfBoundsException | NumberFormatException e){
+			LOGGER.debug(messageUnableToSetProxy);
+			createDefaultWebClient();
 		}
 	}
 
-	//Метод GET-запроса на телеграм
+	/**
+	 * Метод для отправки GET-запроса на телеграм
+	 * @param token
+	 * @param apiMethodName
+	 * @return JSONObject - ответ от телеграма
+	 */
 	public JSONObject sendGet(String token, String apiMethodName) {
 		String uri = "/bot" + token + "/" + apiMethodName;
-		LOGGER.debug(BASEURL + uri);
 
 		//Получение ответа от телеграма
 		JSONObject response = webClient.get()
@@ -77,10 +62,15 @@ public class SendRequestsService {
 		return response;
 	}
 
-	//Метод POST-запроса на телеграм
+	/**
+	 * Метод для отправки POST-запроса на телеграм
+	 * @param token
+	 * @param apiMethodName
+	 * @param jsonBody
+	 * @return JSONObject - ответ от телеграма
+	 */
 	public JSONObject sendPost(String token, String apiMethodName, String jsonBody) {
 		String uri = "/bot" + token + "/" + apiMethodName;
-		LOGGER.debug(BASEURL + uri);
 
 		//Получение ответа от телеграма
 		JSONObject response = webClient.post()
@@ -93,5 +83,34 @@ public class SendRequestsService {
 				.block();
 
 		return response;
+	}
+
+	/**
+	 * Создание прямого подключения к телеграму
+	 */
+	public void createDefaultWebClient(){
+		webClient = WebClient.builder()
+				.baseUrl(baseUrl)
+				.build();
+	}
+
+	/**
+	 * Создание прокси соединения к телеграму
+	 * @param proxyIP - IP адрес прокси
+	 * @param proxyPort - порт прокси
+	 */
+	public void createProxifiedWebClient(String proxyIP, int proxyPort){
+		HttpClient httpClient = HttpClient.create()
+				.tcpConfiguration(tcpClient -> tcpClient
+						.proxy(proxy -> proxy
+								.type(ProxyProvider.Proxy.HTTP)
+								.host(proxyIP)
+								.port(proxyPort)));
+		ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
+
+		webClient = WebClient.builder()
+				.clientConnector(connector)
+				.baseUrl(baseUrl)
+				.build();
 	}
 }
