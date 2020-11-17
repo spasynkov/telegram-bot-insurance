@@ -34,36 +34,60 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	public String receiveAndProcessMessage(String token, JSONObject receivedObject) {
 		AbstractBot bot = botService.findBotByToken(token);
 
-		if (jsonObject == null) {
-			throw new Exception("Преданный jsonObject объект в метод convertDataToMessageObjectAndSendItToBot класса WebhookHandlerServiceImpl равен null.");
+		if (receivedObject == null) {
+			throw new IncomingMessageCheckException("The object passed to the method is null.");
 		}
 
-		if (jsonObject.isEmpty()) {
-			throw new Exception("Предан пустой jsonObject объект в метод convertDataToMessageObjectAndSendItToBot класса WebhookHandlerServiceImpl.");
+		if (receivedObject.isEmpty()) {
+			throw new IncomingMessageCheckException("The object passed to the method is empty.");
 		}
 
-		if (jsonObject.has("message")) {
-			JSONObject messageJsonObject = jsonObject.getJSONObject("message");
-
-			if (!messageJsonObject.isEmpty()) {
-				Message message = new Message();
-
-				long message_id = messageJsonObject.getLong("message_id");
-				message.setMessage_id(message_id);
-
-				long millisecondsForDate = messageJsonObject.getLong("date");
-				Date date = new Date(millisecondsForDate);
-				message.setDate(date);
-
-				if (messageJsonObject.has("text") && !messageJsonObject.isNull("text")) {
-					String text = messageJsonObject.getString("text");
-					message.setText(text);
-				}
-
-				bot.processMessage(message);
-			}
+		if (!receivedObject.has("message")) {
+			throw new IncomingMessageCheckException("The object passed to the method does not contain a 'message'.");
 		}
+
+		if (receivedObject.isNull("message")) {
+			throw new IncomingMessageCheckException("The 'message' of the object passed to the method is null.");
+		}
+
+		JSONObject messageObject = receivedObject.getJSONObject("message");
+		Message message = createMessageObject(messageObject);
+
+		bot.processMessage(message);
 
 		return "{\"status\":\"ok\"}";
+	}
+
+	/**
+	 * Создаёт объект класса Message.
+	 *
+	 * @param messageObject JSON объек.
+	 * @return Объект с класса Message.
+	 * @throws IncomingMessageCheckException Если полученный объект пустой.
+	 *                                       Если объект 'text' в полученном объекте равен null или его не имеется.
+	 */
+	private Message createMessageObject(JSONObject messageObject) {
+		if (messageObject.isEmpty()) {
+			throw new IncomingMessageCheckException("The 'message' of the object passed to the method is empty.");
+		}
+
+		if (!messageObject.has("text")) {
+			throw new IncomingMessageCheckException("The object passed to the method does not contain a 'text'.");
+		}
+
+		if (messageObject.isNull("text")) {
+			throw new IncomingMessageCheckException("The 'text' of the object passed to the method is null.");
+		}
+
+		int messageId = messageObject.getInt("message_id");
+
+		long millisecondsForDate = messageObject.getLong("date") * 1000L;
+		Date date = new Date(millisecondsForDate);
+
+		String text = messageObject.getString("text");
+
+		int chatId = messageObject.getJSONObject("chat").getInt("id");
+
+		return new Message(chatId, messageId, date, text);
 	}
 }
