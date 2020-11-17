@@ -1,6 +1,6 @@
 package com.example.telegrambotinsurance.exception;
 
-public class IncomingMessageCheckException extends Exception {
+public class IncomingMessageCheckException extends RuntimeException {
 	public IncomingMessageCheckException() {
 	}
 
