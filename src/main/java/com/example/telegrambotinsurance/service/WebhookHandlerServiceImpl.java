@@ -1,5 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
+import com.example.telegrambotinsurance.exception.BotNotFoundException;
+import com.example.telegrambotinsurance.exception.IncomingMessageCheckException;
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.Message;
 import org.json.JSONObject;
@@ -17,10 +19,19 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 		this.botService = botService;
 	}
 
-	// Метод получает определённого бота по токену, преобразует JSONObject в объект Message
-	// и передаёт этот Message объект полученному боту.
-	// @return status.
-	public String receiveAndProcessMessage(String token, JSONObject jsonObject) throws Exception {
+	/**
+	 * Определяет бота по токену, преобразует JSONObject в объект Message
+	 * и передаёт этот Message объект полученному боту.
+	 *
+	 * @param token          Строка с токиеном.
+	 * @param receivedObject JSON объек.
+	 * @return JSON строку со статусом.
+	 * @throws BotNotFoundException          Если бота с преданным токеном не существует.
+	 * @throws IncomingMessageCheckException Если полученный объект равен null или пустой.
+	 *                                       Если объект 'message' в полученном объекте равен null или его не имеется.
+	 */
+	@Override
+	public String receiveAndProcessMessage(String token, JSONObject receivedObject) {
 		AbstractBot bot = botService.findBotByToken(token);
 
 		if (jsonObject == null) {

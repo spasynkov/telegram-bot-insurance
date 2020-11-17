@@ -17,16 +17,21 @@ public class WebhookHandlerController {
 	private final WebhookHandlerService webhookHandlerService;
 
 	@Autowired
-	WebhookHandlerController(WebhookHandlerService webhookHandlerService) {
+	public WebhookHandlerController(WebhookHandlerService webhookHandlerService) {
 		this.webhookHandlerService = webhookHandlerService;
 	}
 
-	// Метод слушает POST запросы по токену определённого бота, обрабатывает полученные сообщения и предаёт их сервису.
-	// @return status или error.
+	/**
+	 * Слушает запросы вебхука бота и предаёт полученные сообщения и токен сервису.
+	 *
+	 * @param token       Строка с токиеном.
+	 * @param requestBody Объект JSONObject, содержащий тело сообщения.
+	 * @return Возвращает JSON строку, содержащую статус выполнения запроса.
+	 */
 	@PostMapping("/rest/{token}")
-	public String receiveAndProcessMessage(@PathVariable("token") String token, @RequestBody JSONObject jsonObject) {
+	public String receiveAndProcessMessage(@PathVariable("token") String token, @RequestBody JSONObject requestBody) {
 		try {
-			return webhookHandlerService.receiveAndProcessMessage(token, jsonObject);
+			return webhookHandlerService.receiveAndProcessMessage(token, requestBody);
 		} catch (Exception e) {
 			String exceptionAnswer = e.getMessage() == null || e.getMessage().isEmpty() ? e.getClass().getSimpleName() : e.getMessage();
 			return String.format("{\"error\":\"%s\"}", exceptionAnswer);
