@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<org.json.version>20201115</org.json.version>
 	</properties>
 
 	<dependencies>
@@ -62,7 +63,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20200518</version>
+			<version>${org.json.version}</version>
 		</dependency>
 	</dependencies>
 
