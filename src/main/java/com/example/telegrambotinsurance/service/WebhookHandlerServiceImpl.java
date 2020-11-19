@@ -27,9 +27,12 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 * @param token          Строка с токиеном.
 	 * @param receivedObject JSON объек.
 	 * @return JSON строку со статусом.
-	 * @throws BotNotFoundException          Если бота с преданным токеном не существует.
+	 * @throws JSONException                 Если ключ не найден или если значение не является JSONObject.
+	 *                                       Если ключ не найден или значение не может быть преобразовано в выбранный тип.
+	 * @throws BotNotFoundException          Если бота с переданным токеном не существует.
 	 * @throws IncomingMessageCheckException Если полученный объект равен null или пустой.
-	 *                                       Если объект 'message' в полученном объекте равен null или его не имеется.
+	 *                                       Если блок 'message' в полученном объекте не имеется, равен null или пустой.
+	 *                                       Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
 	@Override
 	public String receiveAndProcessMessage(String token, JSONObject receivedObject) {
