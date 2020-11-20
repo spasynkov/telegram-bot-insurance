@@ -56,10 +56,13 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	/**
 	 * Проверяет существуют ли ключи и объекты, пусты или равны null.
 	 *
-	 * @param json JSON объект.
-	 * @throws MessageValidationException Если полученный объект равен null или пустой.
-	 *                                    Если блок 'message' в полученном объекте не имеется, равен null или пустой.
-	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
+	 * @param json
+	 *        JSON объект.
+	 *
+	 * @throws MessageValidationException
+	 *         Если полученный объект равен null или пустой.
+	 *         Если блок 'message' в полученном объекте не имеется, равен null или пустой.
+	 *         Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
 	private void validate(JSONObject json) {
 		isNull(json);

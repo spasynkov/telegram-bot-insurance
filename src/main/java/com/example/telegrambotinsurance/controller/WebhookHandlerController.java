@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Класс обработки сообщений пришедших на вебхук определённого бота.
+ * Класс ожидания оповещения от webhook.
  */
 
 @RestController
@@ -22,7 +22,7 @@ public class WebhookHandlerController {
 	}
 
 	/**
-	 * Слушает запросы вебхука бота и предаёт полученные сообщения и токен сервису.
+	 * Ожидает оповещения от webhook, при получении сообщения передаёт их в сервис для обработки.
 	 *
 	 * @param token       Строка с токеном.
 	 * @param requestBody Объект JSONObject, содержащий тело сообщения.
