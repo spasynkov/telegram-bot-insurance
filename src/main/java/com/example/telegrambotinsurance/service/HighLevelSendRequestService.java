@@ -4,6 +4,7 @@ import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -14,6 +15,11 @@ public class HighLevelSendRequestService {
 	private final String GET_ME = "getMe";
 	SendRequestsService sendRequestsService;
 	private final Logger LOGGER = LoggerFactory.getLogger(HighLevelSendRequestService.class);
+
+	@Autowired
+	public HighLevelSendRequestService(SendRequestsService sendRequestsService) {
+		this.sendRequestsService = sendRequestsService;
+	}
 
 	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message ){
 		return new JSONObject();
@@ -35,6 +41,8 @@ public class HighLevelSendRequestService {
 
 	public JSONObject getMe(AbstractBot bot, String token){
 		JSONObject jsonObject = sendRequestsService.sendGet(token, GET_ME);
+		LOGGER.debug(GET_ME);
+
 		return jsonObject;
 	}
 }
