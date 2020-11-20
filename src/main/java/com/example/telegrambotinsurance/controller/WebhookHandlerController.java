@@ -34,8 +34,8 @@ public class WebhookHandlerController {
 			return webhookHandlerService.receiveAndProcessMessage(token, requestBody);
 		} catch (Exception e) {
 			String exceptionAnswer = e.getMessage() == null || e.getMessage().isEmpty() ? e.getClass().getSimpleName() : e.getMessage();
-			String finalAnswer = JSONObject.quote(exceptionAnswer);
-			return String.format("{\"error\":%s}", finalAnswer);
+			exceptionAnswer = JSONObject.quote(exceptionAnswer);
+			return String.format("{\"error\":%s}", exceptionAnswer);
 		}
 	}
 }
