@@ -24,8 +24,8 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 * Определяет бота по токену, преобразует JSONObject в объект Message
 	 * и передаёт этот Message объект полученному боту.
 	 *
-	 * @param token          Строка с токеном.
-	 * @param receivedObject JSON объект.
+	 * @param token Строка с токеном.
+	 * @param json  JSON объект.
 	 * @return JSON строку со статусом.
 	 * @throws JSONException              Если ключ не найден или если значение не является JSONObject.
 	 *                                    Если ключ не найден или значение не может быть преобразовано в выбранный тип.
@@ -35,17 +35,17 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
 	@Override
-	public String receiveAndProcessMessage(String token, JSONObject receivedObject) {
+	public String receiveAndProcessMessage(String token, JSONObject json) {
 		AbstractBot bot = botService.findBotByToken(token);
 
-		checkObject(receivedObject);
+		validate(json);
 
-		JSONObject messageObject = receivedObject.getJSONObject("message");
+		JSONObject messageBlock = json.getJSONObject("message");
 
-		int messageId = messageObject.getInt("message_id");
-		Date date = new Date(messageObject.getInt("date") * 1000L);
-		String text = messageObject.getString("text");
-		long chatId = messageObject.getJSONObject("chat").getLong("id");
+		int messageId = messageBlock.getInt("message_id");
+		Date date = new Date(messageBlock.getInt("date") * 1000L);
+		String text = messageBlock.getString("text");
+		long chatId = messageBlock.getJSONObject("chat").getLong("id");
 
 		Message message = new Message(chatId, messageId, date, text);
 		bot.processMessage(message);
@@ -56,47 +56,47 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	/**
 	 * Проверяет существуют ли ключи и объекты, пусты или равны null.
 	 *
-	 * @param receivedObject JSON объект.
+	 * @param json JSON объект.
 	 * @throws MessageValidationException Если полученный объект равен null или пустой.
-	 *                                       Если блок 'message' в полученном объекте не имеется, равен null или пустой.
-	 *                                       Если блок 'text' в полученном объекте не имеется или равен null.
+	 *                                    Если блок 'message' в полученном объекте не имеется, равен null или пустой.
+	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
-	private void checkObject(JSONObject receivedObject) {
-		isNull(receivedObject);
-		isEmpty(receivedObject, "incoming");
+	private void validate(JSONObject json) {
+		isNull(json);
+		isEmpty(json, "incoming");
 
-		hasObject(receivedObject, "message");
-		isNull(receivedObject, "message");
+		hasObject(json, "message");
+		isNull(json, "message");
 
-		JSONObject messageObject = receivedObject.getJSONObject("message");
+		JSONObject messageBlock = json.getJSONObject("message");
 
-		isEmpty(messageObject, "message");
+		isEmpty(messageBlock, "message");
 
-		hasObject(messageObject, "text");
-		isNull(messageObject, "text");
+		hasObject(messageBlock, "text");
+		isNull(messageBlock, "text");
 	}
 
-	private void isNull(JSONObject receivedObject) {
-		if (receivedObject == null) {
+	private void isNull(JSONObject json) {
+		if (json == null) {
 			throw new MessageValidationException("The incoming object cannot be null.");
 		}
 	}
 
-	private void isNull(JSONObject receivedObject, String objectName) {
-		if (receivedObject.isNull(objectName)) {
-			throw new MessageValidationException("The '" + objectName + "' object cannot be null.");
+	private void isNull(JSONObject json, String key) {
+		if (json.isNull(key)) {
+			throw new MessageValidationException("The '" + key + "' object cannot be null.");
 		}
 	}
 
-	private void isEmpty(JSONObject receivedObject, String objectName) {
-		if (receivedObject.isEmpty()) {
-			throw new MessageValidationException("The '" + objectName + "' object cannot be empty.");
+	private void isEmpty(JSONObject json, String key) {
+		if (json.isEmpty()) {
+			throw new MessageValidationException("The '" + key + "' object cannot be empty.");
 		}
 	}
 
-	private void hasObject(JSONObject receivedObject, String objectName) {
-		if (!receivedObject.has(objectName)) {
-			throw new MessageValidationException("There is no '" + objectName + "' block in object.");
+	private void hasObject(JSONObject json, String key) {
+		if (!json.has(key)) {
+			throw new MessageValidationException("There is no '" + key + "' block in object.");
 		}
 	}
 }
