@@ -1,8 +1,22 @@
 package com.example.telegrambotinsurance.keyboards;
 
 public class KeyboardButton implements Button{
+	/**
+	 * Текст кнопки
+	 */
 	private String text;
+	/**
+	 * Следущие две переменные взаимоисключающии
+	 */
+	/**
+	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
+	 * Предлагает пользователю отпрвить свой номер телефона
+	 */
 	private Boolean request_contact = false;
+	/**
+	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
+	 * Предлагает пользователю отпрвить свою геолокацию
+	 */
 	private Boolean request_location = false;
 
 	public String getText() {

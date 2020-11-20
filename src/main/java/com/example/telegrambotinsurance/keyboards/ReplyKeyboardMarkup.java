@@ -11,10 +11,31 @@ import java.util.List;
 public class ReplyKeyboardMarkup implements Keyboard{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Keyboard.class);
+	/**
+	 * Массив массивов кнопок
+	 */
 	private List<List<KeyboardButton>> keyboard = new ArrayList<>();
 
+	/**
+	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
+	 * Подгоняет ращмер клавиатуры под количество рядов
+	 * (если false, то клавиатура будет как стандартная у пользователя)
+	 */
 	private Boolean resize_keyboard = false;
+	/**
+	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
+	 * Если true, то после ипользования клавиатура скроется,
+	 * но её можно будет открыть с помощью специальной кнопки
+	 */
 	private Boolean one_time_keyboard = false;
+	/**
+	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
+	 * Показывает определенную клавиатуру определенному пользователю
+	 * Пример:
+	 *  Пользователь запрашивает изменение языка бота,
+	 *  бот отвечает на запрос с помощью клавиатуры, чтобы выбрать новый язык.
+	 *  Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
+	 */
 	private Boolean selective = null;
 
 	public ReplyKeyboardMarkup(Boolean resize_keyboard) {

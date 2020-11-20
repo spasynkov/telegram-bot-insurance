@@ -16,6 +16,9 @@ public class InlineKeyboardMarkup implements Keyboard{
 		return inline_keyboard;
 	}
 
+	/**
+	 * Массив массивов кнопок
+	 */
 	private List<List<InlineKeyboardButton>> inline_keyboard = new ArrayList<>();
 
 	/**
