@@ -1,7 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
 import com.example.telegrambotinsurance.exception.BotNotFoundException;
-import com.example.telegrambotinsurance.exception.IncomingMessageCheckException;
+import com.example.telegrambotinsurance.exception.MessageValidationException;
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.Message;
 import org.json.JSONException;
@@ -27,12 +27,12 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 * @param token          Строка с токеном.
 	 * @param receivedObject JSON объект.
 	 * @return JSON строку со статусом.
-	 * @throws JSONException                 Если ключ не найден или если значение не является JSONObject.
-	 *                                       Если ключ не найден или значение не может быть преобразовано в выбранный тип.
-	 * @throws BotNotFoundException          Если бота с переданным токеном не существует.
-	 * @throws IncomingMessageCheckException Если полученный объект равен null или пустой.
-	 *                                       Если блок 'message' в полученном объекте не имеется, равен null или пустой.
-	 *                                       Если блок 'text' в полученном объекте не имеется или равен null.
+	 * @throws JSONException              Если ключ не найден или если значение не является JSONObject.
+	 *                                    Если ключ не найден или значение не может быть преобразовано в выбранный тип.
+	 * @throws BotNotFoundException       Если бота с переданным токеном не существует.
+	 * @throws MessageValidationException Если полученный объект равен null или пустой.
+	 *                                    Если блок 'message' в полученном объекте не имеется, равен null или пустой.
+	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
 	@Override
 	public String receiveAndProcessMessage(String token, JSONObject receivedObject) {
@@ -57,7 +57,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 * Проверяет существуют ли ключи и объекты, пусты или равны null.
 	 *
 	 * @param receivedObject JSON объект.
-	 * @throws IncomingMessageCheckException Если полученный объект равен null или пустой.
+	 * @throws MessageValidationException Если полученный объект равен null или пустой.
 	 *                                       Если блок 'message' в полученном объекте не имеется, равен null или пустой.
 	 *                                       Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
@@ -78,25 +78,25 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 
 	private void isNull(JSONObject receivedObject) {
 		if (receivedObject == null) {
-			throw new IncomingMessageCheckException("The incoming object cannot be null.");
+			throw new MessageValidationException("The incoming object cannot be null.");
 		}
 	}
 
 	private void isNull(JSONObject receivedObject, String objectName) {
 		if (receivedObject.isNull(objectName)) {
-			throw new IncomingMessageCheckException("The '" + objectName + "' object cannot be null.");
+			throw new MessageValidationException("The '" + objectName + "' object cannot be null.");
 		}
 	}
 
 	private void isEmpty(JSONObject receivedObject, String objectName) {
 		if (receivedObject.isEmpty()) {
-			throw new IncomingMessageCheckException("The '" + objectName + "' object cannot be empty.");
+			throw new MessageValidationException("The '" + objectName + "' object cannot be empty.");
 		}
 	}
 
 	private void hasObject(JSONObject receivedObject, String objectName) {
 		if (!receivedObject.has(objectName)) {
-			throw new IncomingMessageCheckException("There is no '" + objectName + "' block in object.");
+			throw new MessageValidationException("There is no '" + objectName + "' block in object.");
 		}
 	}
 }
