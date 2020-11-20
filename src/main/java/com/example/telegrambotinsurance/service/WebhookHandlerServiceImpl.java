@@ -45,7 +45,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 		int messageId = messageObject.getInt("message_id");
 		Date date = new Date(messageObject.getInt("date") * 1000L);
 		String text = messageObject.getString("text");
-		int chatId = messageObject.getJSONObject("chat").getInt("id");
+		long chatId = messageObject.getJSONObject("chat").getLong("id");
 
 		Message message = new Message(chatId, messageId, date, text);
 		bot.processMessage(message);

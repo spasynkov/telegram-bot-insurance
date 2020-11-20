@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
-	private int chatId;
+	private long chatId;
 	private int messageId;
 	private Date date;
 	private String text;
