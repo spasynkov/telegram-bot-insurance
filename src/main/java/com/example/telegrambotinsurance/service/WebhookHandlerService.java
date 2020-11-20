@@ -10,8 +10,8 @@ public interface WebhookHandlerService {
 	 * Определяет бота по токену, преобразует JSONObject в объект Message
 	 * и передаёт этот Message объект полученному боту.
 	 *
-	 * @param token          Строка с токиеном.
-	 * @param receivedObject JSON объек.
+	 * @param token          Строка с токеном.
+	 * @param receivedObject JSON объект.
 	 * @return JSON строку со статусом.
 	 * @throws JSONException                 Если ключ не найден или если значение не является JSONObject.
 	 *                                       Если ключ не найден или значение не может быть преобразовано в выбранный тип.

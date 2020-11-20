@@ -24,8 +24,8 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 * Определяет бота по токену, преобразует JSONObject в объект Message
 	 * и передаёт этот Message объект полученному боту.
 	 *
-	 * @param token          Строка с токиеном.
-	 * @param receivedObject JSON объек.
+	 * @param token          Строка с токеном.
+	 * @param receivedObject JSON объект.
 	 * @return JSON строку со статусом.
 	 * @throws JSONException                 Если ключ не найден или если значение не является JSONObject.
 	 *                                       Если ключ не найден или значение не может быть преобразовано в выбранный тип.
@@ -56,7 +56,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	/**
 	 * Проверяет существуют ли ключи и объекты, пусты или равны null.
 	 *
-	 * @param receivedObject JSON объек.
+	 * @param receivedObject JSON объект.
 	 * @throws IncomingMessageCheckException Если полученный объект равен null или пустой.
 	 *                                       Если блок 'message' в полученном объекте не имеется, равен null или пустой.
 	 *                                       Если блок 'text' в полученном объекте не имеется или равен null.

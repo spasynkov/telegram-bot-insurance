@@ -24,7 +24,7 @@ public class WebhookHandlerController {
 	/**
 	 * Слушает запросы вебхука бота и предаёт полученные сообщения и токен сервису.
 	 *
-	 * @param token       Строка с токиеном.
+	 * @param token       Строка с токеном.
 	 * @param requestBody Объект JSONObject, содержащий тело сообщения.
 	 * @return Возвращает JSON строку, содержащую статус выполнения запроса.
 	 */
