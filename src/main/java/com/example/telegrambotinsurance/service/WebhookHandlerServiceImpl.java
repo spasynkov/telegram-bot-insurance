@@ -74,7 +74,6 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 		isNull(json, "message");
 
 		JSONObject messageBlock = json.getJSONObject("message");
-
 		isEmpty(messageBlock, "message");
 
 		hasObject(messageBlock, "text");
