@@ -34,6 +34,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 *                                    Если блок 'message' в полученном объекте не имеется, равен null или пустой.
 	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
+
 	@Override
 	public String receiveAndProcessMessage(String token, JSONObject json) {
 		AbstractBot bot = botService.findBotByToken(token);
@@ -64,6 +65,7 @@ public class WebhookHandlerServiceImpl implements WebhookHandlerService {
 	 *         Если блок 'message' в полученном объекте не имеется, равен null или пустой.
 	 *         Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
+
 	private void validate(JSONObject json) {
 		isNull(json);
 		isEmpty(json, "incoming");

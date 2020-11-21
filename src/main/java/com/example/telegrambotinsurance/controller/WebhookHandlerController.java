@@ -28,12 +28,14 @@ public class WebhookHandlerController {
 	 * @param requestBody Объект JSONObject, содержащий тело сообщения.
 	 * @return Возвращает JSON строку, содержащую статус выполнения запроса.
 	 */
+
 	@PostMapping("/rest/{token}")
 	public String receiveAndProcessMessage(@PathVariable("token") String token, @RequestBody JSONObject requestBody) {
 		try {
 			return webhookHandlerService.receiveAndProcessMessage(token, requestBody);
 		} catch (Exception e) {
-			String exceptionAnswer = e.getMessage() == null || e.getMessage().isEmpty() ? e.getClass().getSimpleName() : e.getMessage();
+			String exceptionAnswer = e.getMessage() == null || e.getMessage().isEmpty() ?
+					e.getClass().getSimpleName() : e.getMessage();
 			exceptionAnswer = JSONObject.quote(exceptionAnswer);
 			return String.format("{\"error\":%s}", exceptionAnswer);
 		}

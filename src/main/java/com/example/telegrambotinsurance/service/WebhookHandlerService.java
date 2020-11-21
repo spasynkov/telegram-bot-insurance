@@ -20,5 +20,6 @@ public interface WebhookHandlerService {
 	 *                                    Если блок 'message' в полученном объекте не имеется, равен null или пустой.
 	 *                                    Если блок 'text' в полученном объекте не имеется или равен null.
 	 */
+
 	String receiveAndProcessMessage(String token, JSONObject receivedObject);
 }
