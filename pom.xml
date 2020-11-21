@@ -17,9 +17,20 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<org.json.version>20201115</org.json.version>
+		<reactor-spring.version>1.0.1.RELEASE</reactor-spring.version>
+		<ucanaccess.version>5.0.0</ucanaccess.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectreactor</groupId>
+			<artifactId>reactor-spring</artifactId>
+			<version>${reactor-spring.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -65,6 +76,14 @@
 			<artifactId>json</artifactId>
 			<version>${org.json.version}</version>
 		</dependency>
+
+		<!-- ucanaccess -->
+		<dependency>
+			<groupId>net.sf.ucanaccess</groupId>
+			<artifactId>ucanaccess</artifactId>
+			<version>${ucanaccess.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
