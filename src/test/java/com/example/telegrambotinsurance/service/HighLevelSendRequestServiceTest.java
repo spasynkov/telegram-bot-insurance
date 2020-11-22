@@ -35,7 +35,8 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"), "Wrong response from TG API, field: ok = false ");
+		Assertions.assertEquals("true", response.getAsString("ok"),
+				"Wrong response from TG API, field: ok = false ");
 	}
 
 	@Test
@@ -49,7 +50,8 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"), "Wrong response from TG API, field: ok = false ");
+		Assertions.assertEquals("true", response.getAsString("ok"),
+				"Wrong response from TG API, field: ok = false ");
 	}
 
 	@Test
@@ -63,6 +65,7 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"), "Wrong response from TG API, field: ok = false ");
+		Assertions.assertEquals("true", response.getAsString("ok"),
+				"Wrong response from TG API, field: ok = false ");
 	}
 }

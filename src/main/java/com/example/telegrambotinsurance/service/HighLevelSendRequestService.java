@@ -25,24 +25,29 @@ public class HighLevelSendRequestService {
 		return new JSONObject();
 	}
 
-	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message, JSONObject json) {
+	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message, JSONObject keyboard) {
 		return new JSONObject();
 	}
 
 	public JSONObject getChat(AbstractBot bot, String token, String chatId) {
-		JSONObject jsonObject = sendRequestsService.sendGet(token, TGApiRequest.GET_CHAT.getRequest() + chatId);
+		JSONObject jsonObject = sendRequestsService.sendGet(token,
+				TGApiRequest.GET_CHAT.getRequest()
+						+ chatId);
 		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
 		return jsonObject;
 	}
 
 	public JSONObject getChat(AbstractBot bot, String token, Integer chatId) {
-		JSONObject jsonObject = sendRequestsService.sendGet(token, TGApiRequest.GET_CHAT.getRequest() + chatId);
+		JSONObject jsonObject = sendRequestsService.sendGet(token,
+				TGApiRequest.GET_CHAT.getRequest()
+						+ chatId);
 		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
 		return jsonObject;
 	}
 
 	public JSONObject getMe(AbstractBot bot, String token) {
-		JSONObject jsonObject = sendRequestsService.sendGet(token, TGApiRequest.GET_ME.getRequest());
+		JSONObject jsonObject = sendRequestsService.sendGet(token,
+				TGApiRequest.GET_ME.getRequest());
 		LOGGER.debug(TGApiRequest.GET_ME.getRequest());
 
 		return jsonObject;
