@@ -1,6 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
 
+
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
@@ -28,14 +29,16 @@ public class HighLevelSendRequestService {
 		return new JSONObject();
 	}
 
-	public String getChat(Integer chatId) {
-		String chatName = "Some name";
-		return chatName;
+	public JSONObject getChat(AbstractBot bot, String token, String chatId) {
+		JSONObject jsonObject = sendRequestsService.sendGet(token, TGApiRequest.GET_CHAT.getRequest() + chatId);
+		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
+		return jsonObject;
 	}
 
-	public Integer getChat(String chatName) {
-		Integer chatId = 0;
-		return chatId;
+	public JSONObject getChat(AbstractBot bot, String token, Integer chatId) {
+		JSONObject jsonObject = sendRequestsService.sendGet(token, TGApiRequest.GET_CHAT.getRequest() + chatId);
+		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
+		return jsonObject;
 	}
 
 	public JSONObject getMe(AbstractBot bot, String token) {
@@ -45,8 +48,8 @@ public class HighLevelSendRequestService {
 		return jsonObject;
 	}
 
-	public enum TGApiRequest {
-		GET_ME("getMe"), SEND_MESSAGE("sendMessage"), GET_CHAT("getChat");
+	private enum TGApiRequest {
+		GET_ME("getMe"), SEND_MESSAGE("sendMessage"), GET_CHAT("getChat?chat_id=");
 
 		private String request;
 

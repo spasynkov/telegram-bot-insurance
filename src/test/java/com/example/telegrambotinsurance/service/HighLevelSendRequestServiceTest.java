@@ -1,6 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
 
+
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +32,34 @@ public class HighLevelSendRequestServiceTest {
 		AbstractBot bot = bots.get(token);
 
 		JSONObject response = highLevelSendRequestService.getMe(bot, token);
+
+		Assertions.assertNotNull(response);
+
+		Assertions.assertEquals("true", response.getAsString("ok"), "Wrong response from TG API, field: ok = false ");
+	}
+
+	@Test
+	public void integerMethodGetChatShouldReturnedJSONAnswer() {
+
+		Integer chatId = 871614990;
+
+		AbstractBot bot = bots.get(token);
+
+		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
+
+		Assertions.assertNotNull(response);
+
+		Assertions.assertEquals("true", response.getAsString("ok"), "Wrong response from TG API, field: ok = false ");
+	}
+
+	@Test
+	public void stringMethodGetChatShouldReturnedJSONAnswer() {
+
+		String chatId = "871614990";
+
+		AbstractBot bot = bots.get(token);
+
+		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
 
 		Assertions.assertNotNull(response);
 
