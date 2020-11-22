@@ -2,29 +2,35 @@ package com.example.telegrambotinsurance.keyboards;
 
 
 import com.example.telegrambotinsurance.exception.ButtonFormatException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class ReplyKeyboardMarkup implements Keyboard{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(Keyboard.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReplyKeyboardMarkup.class);
 	/**
-	 * Массив массивов кнопок
+	 * Лист листов кнопок
 	 */
-	private List<List<KeyboardButton>> keyboard = new ArrayList<>();
+	private List<List<ReplyKeyboardButton>> keyboard = new ArrayList<>();
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
-	 * Подгоняет ращмер клавиатуры под количество рядов
-	 * (если false, то клавиатура будет как стандартная у пользователя)
+	 * Подгоняет размер клавиатуры под количество рядов кнопок
+	 * (если false, то клавиатура будет как стандартная у пользователя(на телефоне))
 	 */
 	private Boolean resize_keyboard = false;
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
-	 * Если true, то после ипользования клавиатура скроется,
+	 * Если true, то после использования клавиатура скроется,
 	 * но её можно будет открыть с помощью специальной кнопки
 	 */
 	private Boolean one_time_keyboard = false;
@@ -38,21 +44,6 @@ public class ReplyKeyboardMarkup implements Keyboard{
 	 */
 	private Boolean selective = null;
 
-	public ReplyKeyboardMarkup(Boolean resize_keyboard) {
-		this.resize_keyboard = resize_keyboard;
-	}
-
-	public ReplyKeyboardMarkup(Boolean resize_keyboard, Boolean one_time_keyboard) {
-		this.resize_keyboard = resize_keyboard;
-		this.one_time_keyboard = one_time_keyboard;
-	}
-
-	public ReplyKeyboardMarkup(Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective) {
-		this.resize_keyboard = resize_keyboard;
-		this.one_time_keyboard = one_time_keyboard;
-		this.selective = selective;
-	}
-
 	/**
 	 * Метод добавляет один ряд кнопок
 	 */
@@ -61,27 +52,17 @@ public class ReplyKeyboardMarkup implements Keyboard{
 	}
 
 	/**
-	 * Метод добавляет одну кноку с переданным текстом в ряд под переданным числом
-	 * @param number
-	 * @param textButton
+	 * Метод добавляет одну кнопку с переданным текстом
+	 *  в ряд под переданным числом и в позицию под переданным числом
+	 *  (отсчет начинается от 0)
+	 *
+	 * @param positionInTheRow Позиция кнопки в ряду
+	 * @param rowPosition Позиция ряда в List
+	 * @param button Кнопка
 	 */
-	public void addButton(int number,String textButton){
+	public void addButton(int positionInTheRow, int rowPosition,Button button){
 		try {
-			keyboard.get(number).add(new KeyboardButton(textButton));
-		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-	}
-
-	/**
-	 * Метод добавляет переданную кноку в ряд под переданным числом (отсчет начинается от 0)
-	 * @param number
-	 * @param button
-	 */
-	public void addButton(int number,Button button){
-		try {
-			keyboard.get(number).add((KeyboardButton) button);
+			keyboard.get(rowPosition).add(positionInTheRow,(ReplyKeyboardButton) button);
 		}
 		catch (ArrayIndexOutOfBoundsException e){
 			LOGGER.debug("Row under this number doesn't exist");
@@ -91,31 +72,41 @@ public class ReplyKeyboardMarkup implements Keyboard{
 		}
 	}
 
-	public Boolean getResize_keyboard() {
-		return resize_keyboard;
+	/**
+	 * Метод добавляет переданную кнопку в последний ряд
+	 *  в позицию под переданным числом (отсчет начинается от 0)
+	 *
+	 * @param positionInTheRow Позиция кнопки в ряду
+	 * @param button Кнопка
+	 */
+	public void addButton(int positionInTheRow,Button button){
+		try {
+			keyboard.get(keyboard.size()-1).add(positionInTheRow,(ReplyKeyboardButton) button);
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			LOGGER.debug("Row under this number doesn't exist");
+		}
+		catch (ButtonFormatException e){
+			LOGGER.debug("Wrong button format");
+		}
 	}
 
-	public void setResize_keyboard(Boolean resize_keyboard) {
-		this.resize_keyboard = resize_keyboard;
-	}
-
-	public Boolean getOne_time_keyboard() {
-		return one_time_keyboard;
-	}
-
-	public void setOne_time_keyboard(Boolean one_time_keyboard) {
-		this.one_time_keyboard = one_time_keyboard;
-	}
-
-	public Boolean getSelective() {
-		return selective;
-	}
-
-	public void setSelective(Boolean selective) {
-		this.selective = selective;
-	}
-
-	public List<List<KeyboardButton>> getKeyboard() {
-		return keyboard;
+	/**
+	 * Метод добавляет переданную кнопку в последний ряд
+	 *  в последнию позицию в ряде
+	 *
+	 * @param button Кнопка
+	 */
+	@Override
+	public void addButton(Button button) {
+		try {
+			keyboard.get(keyboard.size()-1).add((ReplyKeyboardButton) button);
+		}
+		catch (ArrayIndexOutOfBoundsException e){
+			LOGGER.debug("Row under this number doesn't exist");
+		}
+		catch (ButtonFormatException e){
+			LOGGER.debug("Wrong button format");
+		}
 	}
 }

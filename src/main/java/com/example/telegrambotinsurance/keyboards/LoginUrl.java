@@ -1,5 +1,10 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginUrl {
 	/**
 	 * URL-адрес HTTP, который открывается с данными авторизации пользователя,
@@ -39,26 +44,4 @@ public class LoginUrl {
 	 * Передайте True, чтобы запросить у вашего бота разрешение на отправку сообщений пользователю.
 	 */
 	private Boolean request_write_access;
-
-	public LoginUrl(String url) {
-		this.url = url;
-	}
-
-	public LoginUrl(String url, String forward_text, String bot_username, Boolean request_write_access) {
-		this.url = url;
-		this.forward_text = forward_text;
-		this.bot_username = bot_username;
-		this.request_write_access = request_write_access;
-	}
-
-	public LoginUrl(String url, String forward_text, String bot_username) {
-		this.url = url;
-		this.forward_text = forward_text;
-		this.bot_username = bot_username;
-	}
-
-	public LoginUrl(String url, String forward_text) {
-		this.url = url;
-		this.forward_text = forward_text;
-	}
 }
