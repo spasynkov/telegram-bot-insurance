@@ -9,10 +9,21 @@ public class KeyboardsService {
 	private Keyboard keyboard;
 
 	/**
-	 * Создание reply клавиатуры
+	 * Создание reply клавиатуры без параметров
 	 */
 	public void createReplyKeyboard(){
 		keyboard = new ReplyKeyboardMarkup();
+	}
+
+	/**
+	 * Создание reply клавиатуры с параметрами
+	 *
+	 * @param resize_keyboard
+	 * @param one_time_keyboard
+	 * @param selective
+	 */
+	public void createReplyKeyboard(Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective){
+		keyboard = new ReplyKeyboardMarkup(resize_keyboard,one_time_keyboard,selective);
 	}
 
 	/**
@@ -83,7 +94,7 @@ public class KeyboardsService {
 	}
 
 	/**
-	 * Возращает объект удаления клавиатуры
+	 * Возращает объект удаления клавиатуры с параметром selective
 	 *
 	 * @param selective
 	 * @return JSONObject
