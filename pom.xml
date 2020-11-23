@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<org.json.version>20201115</org.json.version>
 		<reactor-spring.version>1.0.1.RELEASE</reactor-spring.version>
 		<ucanaccess.version>5.0.0</ucanaccess.version>
 	</properties>
@@ -69,6 +70,11 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>${org.json.version}</version>
 		</dependency>
 
 		<!-- ucanaccess -->
