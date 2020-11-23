@@ -21,48 +21,50 @@ class KeyboardsServiceTest {
 
 	@Test
 	void getStarterMenu() {
-		JSONObject JSONKeyboard = keyboardService.getStarterMenu();
+		keyboardService.createReplyKeyboard(true,true,null);
+		keyboardService.addRow();
+		keyboardService.addRow();
+		keyboardService.addButton(0,0,new ReplyKeyboardButton("Оформить договор"));
+		keyboardService.addButton(new ReplyKeyboardButton("Контакты"));
+		keyboardService.addButton(1,new ReplyKeyboardButton("Оплата"));
+		keyboardService.addButton(new ReplyKeyboardButton("Помощь"));
+		JSONObject JSONKeyboard = keyboardService.getKeyboard();
 		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
+				"{\"chat_id\":-1001484722738, \"reply_markup\":" + JSONKeyboard.toString()+"}");
+		System.out.println(jsonObject.toString());
 	}
 
 	@Test
 	void removeKeyboard(){
+		JSONObject JSONKeyboard = keyboardService.removeKeyboard();
 		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				keyboardService.removeKeyboard());
+				"{\"chat_id\":-1001484722738, \"text\":\"Delete keyboard\", \"reply_markup\":" + JSONKeyboard.toString() + "}");
 	}
 
 	@Test
 	void getTestInlineKeyboard(){
-		JSONObject JSONKeyboard = keyboardService.getTestInlineKeyboard();
+		keyboardService.createInlineKeyboard();
+		keyboardService.addRow();
+		keyboardService.addRow();
+		keyboardService.addButton(0,InlineKeyboardButton.builder()
+				.text("1").url("https://core.telegram.org/bots/api#inlinekeyboardbutton").build());
+		keyboardService.addButton(1, InlineKeyboardButton.builder()
+				.text("2").url("https://core.telegram.org/bots/api#inlinekeyboardbutton").build());
+		JSONObject JSONKeyboard = keyboardService.getKeyboard();
 		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
 				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
 	}
 
 	@Test
 	void getFrequentQuestions() {
-		JSONObject JSONKeyboard = keyboardService.getFrequentQuestions();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
-	}
-
-	@Test
-	void getExecutionOfTheContract() {
-		JSONObject JSONKeyboard = keyboardService.getExecutionOfTheContract();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
-	}
-
-	@Test
-	void getTheCode() {
-		JSONObject JSONKeyboard = keyboardService.getTheCode();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
-	}
-
-	@Test
-	void getSendUserNumber() {
-		JSONObject JSONKeyboard = keyboardService.getSendUserNumber();
+		keyboardService.createReplyKeyboard(true,true,null);
+		keyboardService.addRow();
+		keyboardService.addRow();
+		keyboardService.addButton(0,0, new ReplyKeyboardButton("Частые вопросы"));
+		keyboardService.addButton( new ReplyKeyboardButton("1"));
+		keyboardService.addButton( new ReplyKeyboardButton("2"));
+		keyboardService.addButton(new ReplyKeyboardButton("3"));
+		JSONObject JSONKeyboard = keyboardService.getKeyboard();
 		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
 				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
 	}

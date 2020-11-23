@@ -2,7 +2,6 @@ package com.example.telegrambotinsurance.keyboards;
 
 
 import com.example.telegrambotinsurance.exception.ButtonFormatException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class ReplyKeyboardMarkup implements Keyboard{
@@ -43,6 +41,12 @@ public class ReplyKeyboardMarkup implements Keyboard{
 	 *  Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
 	 */
 	private Boolean selective = null;
+
+	public ReplyKeyboardMarkup(Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective) {
+		this.resize_keyboard = resize_keyboard;
+		this.one_time_keyboard = one_time_keyboard;
+		this.selective = selective;
+	}
 
 	/**
 	 * Метод добавляет один ряд кнопок
