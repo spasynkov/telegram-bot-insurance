@@ -3,6 +3,7 @@ package com.example.telegrambotinsurance.service;
 
 
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
+import com.example.telegrambotinsurance.modelbot.Message;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,25 +22,33 @@ public class HighLevelSendRequestService {
 		this.sendRequestsService = sendRequestsService;
 	}
 
-	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message) {
-		return new JSONObject();
+	public JSONObject sendMessage(AbstractBot bot, String token, Message message) {
+
+		JSONObject jsonObject = sendRequestsService.sendGet(token,
+				TGApiRequest.SEND_MESSAGE.getRequest()
+						+ TGApiRequest.CHAT_ID.getRequest() + message.getChatId() +
+						TGApiRequest.TEXT.getRequest() + message.getText());
+		LOGGER.debug(TGApiRequest.SEND_MESSAGE.getRequest());
+
+		return jsonObject;
 	}
 
-	public JSONObject sendMessage(AbstractBot bot, String token, Integer chatId, String message, JSONObject keyboard) {
+	public JSONObject sendMessage(AbstractBot bot, String token, String message,
+	                              JSONObject keyboard) {
 		return new JSONObject();
 	}
 
 	public JSONObject getChat(AbstractBot bot, String token, String chatId) {
 		JSONObject jsonObject = sendRequestsService.sendGet(token,
-				TGApiRequest.GET_CHAT.getRequest()
+				TGApiRequest.GET_CHAT.getRequest() + TGApiRequest.CHAT_ID.getRequest()
 						+ chatId);
 		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
 		return jsonObject;
 	}
 
-	public JSONObject getChat(AbstractBot bot, String token, Integer chatId) {
+	public JSONObject getChat(AbstractBot bot, String token, long chatId) {
 		JSONObject jsonObject = sendRequestsService.sendGet(token,
-				TGApiRequest.GET_CHAT.getRequest()
+				TGApiRequest.GET_CHAT.getRequest() + TGApiRequest.CHAT_ID.getRequest()
 						+ chatId);
 		LOGGER.debug(TGApiRequest.GET_CHAT.getRequest());
 		return jsonObject;
@@ -54,7 +63,9 @@ public class HighLevelSendRequestService {
 	}
 
 	private enum TGApiRequest {
-		GET_ME("getMe"), SEND_MESSAGE("sendMessage"), GET_CHAT("getChat?chat_id=");
+		GET_ME("getMe"), SEND_MESSAGE("sendMessage"), GET_CHAT("getChat"),
+		CHAT_ID("?chat_id="), TEXT("&text=");
+
 
 		private String request;
 
