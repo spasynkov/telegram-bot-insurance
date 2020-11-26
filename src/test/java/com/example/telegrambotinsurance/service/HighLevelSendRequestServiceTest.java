@@ -3,7 +3,7 @@ package com.example.telegrambotinsurance.service;
 
 
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
-import com.example.telegrambotinsurance.modelbot.Message;
+import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -72,11 +72,11 @@ public class HighLevelSendRequestServiceTest {
 
 	@Test
 	public void sendMessageWithOutKeyBoardShouldReturnedJSONAnswer() {
-		long chatId = 1029944281;
+		String chatId = "1029944281";
 		String text = "Don`t worry, be happy";
 		AbstractBot bot = bots.get(token);
-		Message message = new Message();
-		message.setChatId(chatId);
+		OutgoingMessage message = new OutgoingMessage();
+		message.setStringChatId(chatId);
 		message.setText(text);
 
 		JSONObject response = highLevelSendRequestService.sendMessage(bot, token, message);

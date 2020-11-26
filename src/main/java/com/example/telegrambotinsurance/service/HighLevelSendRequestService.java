@@ -3,7 +3,7 @@ package com.example.telegrambotinsurance.service;
 
 
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
-import com.example.telegrambotinsurance.modelbot.Message;
+import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
 import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +22,18 @@ public class HighLevelSendRequestService {
 		this.sendRequestsService = sendRequestsService;
 	}
 
-	public JSONObject sendMessage(AbstractBot bot, String token, Message message) {
+	public JSONObject sendMessage(AbstractBot bot, String token, OutgoingMessage message) {
 
 		JSONObject jsonObject = sendRequestsService.sendGet(token,
 				TGApiRequest.SEND_MESSAGE.getRequest()
-						+ TGApiRequest.CHAT_ID.getRequest() + message.getChatId() +
+						+ TGApiRequest.CHAT_ID.getRequest() + message.getStringChatId() +
 						TGApiRequest.TEXT.getRequest() + message.getText());
 		LOGGER.debug(TGApiRequest.SEND_MESSAGE.getRequest());
 
 		return jsonObject;
 	}
 
-	public JSONObject sendMessage(AbstractBot bot, String token, String message,
+	public JSONObject sendMessage(AbstractBot bot, String token, OutgoingMessage message,
 	                              JSONObject keyboard) {
 		return new JSONObject();
 	}
