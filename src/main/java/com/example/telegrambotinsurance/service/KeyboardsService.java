@@ -1,12 +1,12 @@
-package com.example.telegrambotinsurance.keyboards;
+package com.example.telegrambotinsurance.service;
 
-import com.example.telegrambotinsurance.exception.ButtonFormatException;
+import com.example.telegrambotinsurance.keyboards.*;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KeyboardsService {
-	private Keyboard keyboard;
+	private AbstractKeyboard keyboard;
 
 	/**
 	 * Создание reply клавиатуры без параметров
@@ -49,7 +49,7 @@ public class KeyboardsService {
 	 * @param rowPosition Позиция ряда в List
 	 * @param button Кнопка
 	 */
-	public void addButton(int positionInTheRow, int rowPosition,Button button){
+	public void addButton(int positionInTheRow, int rowPosition, Button button){
 		keyboard.addButton(positionInTheRow,rowPosition,button);
 	}
 
@@ -80,7 +80,9 @@ public class KeyboardsService {
 	 * @return JSONObject
 	 */
 	public JSONObject getKeyboard(){
-		return new JSONObject(keyboard);
+		JSONObject jsonObject = new JSONObject(keyboard);
+		System.out.println(jsonObject.toString());
+		return jsonObject;
 	}
 
 	/**

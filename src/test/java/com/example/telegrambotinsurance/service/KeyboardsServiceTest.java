@@ -1,6 +1,7 @@
-package com.example.telegrambotinsurance.keyboards;
+package com.example.telegrambotinsurance.service;
 
-import com.example.telegrambotinsurance.service.SendRequestsService;
+import com.example.telegrambotinsurance.keyboards.InlineKeyboardButton;
+import com.example.telegrambotinsurance.keyboards.ReplyKeyboardButton;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,14 @@ class KeyboardsServiceTest {
 				"{\"chat_id\":-1001484722738, \"text\":\"Delete keyboard\", \"reply_markup\":" + JSONKeyboard.toString() + "}");
 	}
 
+
+
 	@Test
 	void getTestInlineKeyboard(){
 		keyboardService.createInlineKeyboard();
 		keyboardService.addRow();
 		keyboardService.addRow();
-		keyboardService.addButton(0,InlineKeyboardButton.builder()
+		keyboardService.addButton(0, InlineKeyboardButton.builder()
 				.text("1").url("https://core.telegram.org/bots/api#inlinekeyboardbutton").build());
 		keyboardService.addButton(1, InlineKeyboardButton.builder()
 				.text("2").url("https://core.telegram.org/bots/api#inlinekeyboardbutton").build());

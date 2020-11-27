@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ReplyKeyboardRemove {
+public class ReplyKeyboardRemove implements Keyboard{
 
 	/**
 	 * Если true, то у пользователя удалится клавиатура

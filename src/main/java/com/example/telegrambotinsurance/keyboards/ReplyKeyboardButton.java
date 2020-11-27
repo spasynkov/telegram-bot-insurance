@@ -5,6 +5,10 @@ import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Класс без стандартного конструктора,
+ * потому что кнопка не может быть без текста
+ */
 @AllArgsConstructor
 @Getter
 public class ReplyKeyboardButton implements Button{

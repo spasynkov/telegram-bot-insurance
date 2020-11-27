@@ -1,20 +1,15 @@
 package com.example.telegrambotinsurance.keyboards;
 
 import com.example.telegrambotinsurance.exception.ButtonFormatException;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InlineKeyboardMarkup implements Keyboard{
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(InlineKeyboardMarkup.class);
-
-	public List<List<InlineKeyboardButton>> getInline_keyboard() {
-		return inline_keyboard;
-	}
-
+@Getter
+public class InlineKeyboardMarkup extends AbstractKeyboard{
 	/**
 	 * Лист листов кнопок
 	 */

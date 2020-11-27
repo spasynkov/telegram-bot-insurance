@@ -12,9 +12,8 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-public class ReplyKeyboardMarkup implements Keyboard{
+public class ReplyKeyboardMarkup extends AbstractKeyboard{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReplyKeyboardMarkup.class);
 	/**
 	 * Лист листов кнопок
 	 */
