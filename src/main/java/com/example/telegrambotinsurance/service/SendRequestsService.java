@@ -1,7 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
 //ToDo - заменить на org.json.JSONObject
-import org.json.JSONObject;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
