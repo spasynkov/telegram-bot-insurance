@@ -53,13 +53,16 @@ public class SendRequestsService {
 		String uri = "/bot" + token + "/" + apiMethodName;
 
 		//Получение ответа от телеграма
-		JSONObject response = webClient.get()
+		String strResponse = webClient.get()
 				.uri(uri)
 				.retrieve()
-				.bodyToMono(JSONObject.class)
+				.bodyToMono(String.class)
 				.block();
 
+		JSONObject response = new JSONObject(strResponse);
+
 		return response;
+
 	}
 
 	/**
@@ -74,14 +77,16 @@ public class SendRequestsService {
 		String uri = "/bot" + token + "/" + apiMethodName;
 
 		//Получение ответа от телеграма
-		JSONObject response = webClient.post()
+		String strResponse = webClient.post()
 				.uri(uri)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(BodyInserters.fromValue(jsonBody))
 				.retrieve()
-				.bodyToMono(JSONObject.class)
+				.bodyToMono(String.class)
 				.block();
+
+		JSONObject response = new JSONObject(strResponse);
 
 		return response;
 	}
