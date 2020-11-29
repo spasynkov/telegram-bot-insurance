@@ -10,33 +10,29 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.ProxyProvider;
 
 @Service
 public class SendRequestsService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendRequestsService.class);
-	//Базовая URL телеграма
-	private final String baseUrl = "https://api.telegram.org";
-	private final String messageUnableToSetProxy = "Unable to set proxy. Using direct connection for requests.";
-	//Строка с IP и портом
-	private String proxyValue;
+	private final String baseUrl = "https://api.telegram.org";      // Базовая URL телеграма
 	private WebClient webClient;
 
 	public SendRequestsService(@Value("${proxy:}") String proxyValue) {
 		try {
-			this.proxyValue = proxyValue;
-			if(!this.proxyValue.isEmpty()) { //Проверка используется ли прокси или нет
-				String proxyIP = this.proxyValue.split(":")[0];
-				int proxyPort = Integer.parseInt(this.proxyValue.split(":")[1]);
+			if (!proxyValue.isEmpty()) { // Проверка используется ли прокси или нет
+				String proxyIP = proxyValue.split(":")[0];      // Строка с IP и портом
+				int proxyPort = Integer.parseInt(proxyValue.split(":")[1]);
 				createProxifiedWebClient(proxyIP, proxyPort);
 			} else {
 				createDefaultWebClient();
 			}
-		}
-		//ArrayIndexOutOfBoundsException, если пользователь не правильно ввел прокси
-		//NumberFormatException, если пользователь ввел порт НЕ цифрами
-		catch(ArrayIndexOutOfBoundsException | NumberFormatException e) {
+		} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+			// ArrayIndexOutOfBoundsException, если пользователь не правильно ввел прокси
+			// NumberFormatException, если пользователь ввел порт НЕ цифрами
+			String messageUnableToSetProxy = "Unable to set proxy. Using direct connection for requests.";
 			LOGGER.debug(messageUnableToSetProxy);
 			createDefaultWebClient();
 		}
