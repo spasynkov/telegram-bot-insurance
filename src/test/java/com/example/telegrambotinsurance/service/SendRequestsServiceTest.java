@@ -23,24 +23,24 @@ class SendRequestsServiceTest {
 	 * Проверка ответа от метода sendGet
 	 */
 	@Test
-	void sendGet() throws JSONException {
+	void sendGet() {
 		JSONObject response = sendRequestsService.sendGet(token,"getMe");
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertEquals(response.getString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 
 	/**
 	 * Проверка ответа от метода sendGet и отправка сообщения "Testing sendPost()"
 	 */
 	@Test
-	void sendPost() throws JSONException {
+	void sendPost() {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Testing sendPost()\"}");
+				"{\"chat_id\":-386295340, \"text\":\"Testing sendPost()\"}");
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertEquals(response.getString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 }
