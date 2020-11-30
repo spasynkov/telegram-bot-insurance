@@ -1,23 +1,14 @@
 package com.example.telegrambotinsurance.keyboards;
 
-
-import com.example.telegrambotinsurance.exception.ButtonFormatException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Встроенная клавиатура
+ */
 @NoArgsConstructor
 @Getter
 public class ReplyKeyboardMarkup extends AbstractKeyboard{
-
-	/**
-	 * Лист листов кнопок
-	 */
-	private List<List<ReplyKeyboardButton>> keyboard = new ArrayList<>();
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -45,71 +36,5 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard{
 		this.resize_keyboard = resize_keyboard;
 		this.one_time_keyboard = one_time_keyboard;
 		this.selective = selective;
-	}
-
-	/**
-	 * Метод добавляет один ряд кнопок
-	 */
-	public void addKeyboardRow(){
-		keyboard.add(new ArrayList<>());
-	}
-
-	/**
-	 * Метод добавляет одну кнопку с переданным текстом
-	 *  в ряд под переданным числом и в позицию под переданным числом
-	 *  (отсчет начинается от 0)
-	 *
-	 * @param positionInTheRow Позиция кнопки в ряду
-	 * @param rowPosition Позиция ряда в List
-	 * @param button Кнопка
-	 */
-	public void addButton(int positionInTheRow, int rowPosition,Button button){
-		try {
-			keyboard.get(rowPosition).add(positionInTheRow,(ReplyKeyboardButton) button);
-		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
-		}
-	}
-
-	/**
-	 * Метод добавляет переданную кнопку в последний ряд
-	 *  в позицию под переданным числом (отсчет начинается от 0)
-	 *
-	 * @param positionInTheRow Позиция кнопки в ряду
-	 * @param button Кнопка
-	 */
-	public void addButton(int positionInTheRow,Button button){
-		try {
-			keyboard.get(keyboard.size()-1).add(positionInTheRow,(ReplyKeyboardButton) button);
-		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
-		}
-	}
-
-	/**
-	 * Метод добавляет переданную кнопку в последний ряд
-	 *  в последнию позицию в ряде
-	 *
-	 * @param button Кнопка
-	 */
-	@Override
-	public void addButton(Button button) {
-		try {
-			keyboard.get(keyboard.size()-1).add((ReplyKeyboardButton) button);
-		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
-		}
 	}
 }

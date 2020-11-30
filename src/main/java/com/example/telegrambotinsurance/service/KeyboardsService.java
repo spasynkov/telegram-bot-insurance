@@ -46,11 +46,11 @@ public class KeyboardsService {
 	 *  (отсчет начинается от 0)
 	 *
 	 * @param positionInTheRow Позиция кнопки в ряду
-	 * @param rowPosition Позиция ряда в List
+	 * @param rowNumber Позиция ряда в List
 	 * @param button Кнопка
 	 */
-	public void addButton(int positionInTheRow, int rowPosition, Button button){
-		keyboard.addButton(positionInTheRow,rowPosition,button);
+	public void addButton(int positionInTheRow, int rowNumber, Button button){
+		keyboard.addButton(positionInTheRow,rowNumber,button);
 	}
 
 	/**
@@ -80,9 +80,7 @@ public class KeyboardsService {
 	 * @return JSONObject
 	 */
 	public JSONObject getKeyboard(){
-		JSONObject jsonObject = new JSONObject(keyboard);
-		System.out.println(jsonObject.toString());
-		return jsonObject;
+		return new JSONObject(keyboard);
 	}
 
 	/**
