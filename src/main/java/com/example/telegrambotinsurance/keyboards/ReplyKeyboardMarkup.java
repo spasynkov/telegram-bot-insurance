@@ -3,12 +3,18 @@ package com.example.telegrambotinsurance.keyboards;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * Встроенная клавиатура
  */
 @NoArgsConstructor
 @Getter
 public class ReplyKeyboardMarkup extends AbstractKeyboard{
+
+	public List<List<Button>> getKeyboard(){
+		return keyboard;
+	}
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА

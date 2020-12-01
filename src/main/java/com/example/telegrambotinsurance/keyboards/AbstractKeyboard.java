@@ -1,6 +1,5 @@
 package com.example.telegrambotinsurance.keyboards;
 
-import com.example.telegrambotinsurance.exception.ButtonFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractKeyboard implements Keyboard{
 	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractKeyboard.class);
-
+	private String exceptionMessage = "Row under this number doesn't exist";
 	/**
 	 * Лист листов кнопок
 	 */
@@ -35,11 +34,8 @@ public abstract class AbstractKeyboard implements Keyboard{
 		try {
 			keyboard.get(rowNumber).add(positionInTheRow,button);
 		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
+		catch (IndexOutOfBoundsException e){
+			LOGGER.debug(exceptionMessage);
 		}
 	}
 
@@ -54,11 +50,8 @@ public abstract class AbstractKeyboard implements Keyboard{
 		try {
 			keyboard.get(keyboard.size()-1).add(positionInTheRow,button);
 		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
+		catch (IndexOutOfBoundsException e){
+			LOGGER.debug(exceptionMessage);
 		}
 	}
 
@@ -72,11 +65,8 @@ public abstract class AbstractKeyboard implements Keyboard{
 		try {
 			keyboard.get(keyboard.size()-1).add(button);
 		}
-		catch (ArrayIndexOutOfBoundsException e){
-			LOGGER.debug("Row under this number doesn't exist");
-		}
-		catch (ButtonFormatException e){
-			LOGGER.debug("Wrong button format");
+		catch (IndexOutOfBoundsException e){
+			LOGGER.debug(exceptionMessage);
 		}
 	}
 }

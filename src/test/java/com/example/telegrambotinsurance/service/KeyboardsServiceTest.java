@@ -3,6 +3,7 @@ package com.example.telegrambotinsurance.service;
 import com.example.telegrambotinsurance.keyboards.InlineKeyboardButton;
 import com.example.telegrambotinsurance.keyboards.ReplyKeyboardButton;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,16 +31,29 @@ class KeyboardsServiceTest {
 		keyboardService.addButton(1,new ReplyKeyboardButton("Оплата"));
 		keyboardService.addButton(new ReplyKeyboardButton("Помощь"));
 		JSONObject JSONKeyboard = keyboardService.getKeyboard();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"reply_markup\":" + JSONKeyboard.toString()+"}");
-		System.out.println(jsonObject.toString());
+		//Проверка, что JSONObject клавиатуры не пустой
+		Assertions.assertTrue(JSONKeyboard.length() != 0);
+
+		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
+				"{\"chat_id\":-386295340, \"text\":\"Starter menu\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
+		//Проверка, что ответ не пустой
+		Assertions.assertNotNull(response);
+		//Проверка, что ответ удачный
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 
 	@Test
 	void removeKeyboard(){
 		JSONObject JSONKeyboard = keyboardService.removeKeyboard();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Delete keyboard\", \"reply_markup\":" + JSONKeyboard.toString() + "}");
+		//Проверка, что JSONObject клавиатуры не пустой
+		Assertions.assertTrue(JSONKeyboard.length() != 0);
+
+		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
+				"{\"chat_id\":-386295340, \"text\":\"Delete keyboard\", \"reply_markup\":" + JSONKeyboard.toString() + "}");
+		//Проверка, что ответ не пустой
+		Assertions.assertNotNull(response);
+		//Проверка, что ответ удачный
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 
 
@@ -54,21 +68,14 @@ class KeyboardsServiceTest {
 		keyboardService.addButton(1, InlineKeyboardButton.builder()
 				.text("2").url("https://core.telegram.org/bots/api#inlinekeyboardbutton").build());
 		JSONObject JSONKeyboard = keyboardService.getKeyboard();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
-	}
+		//Проверка, что JSONObject клавиатуры не пустой
+		Assertions.assertTrue(JSONKeyboard.length() != 0);
 
-	@Test
-	void getFrequentQuestions() {
-		keyboardService.createReplyKeyboard(true,true,null);
-		keyboardService.addRow();
-		keyboardService.addRow();
-		keyboardService.addButton(0,0, new ReplyKeyboardButton("Частые вопросы"));
-		keyboardService.addButton( new ReplyKeyboardButton("1"));
-		keyboardService.addButton( new ReplyKeyboardButton("2"));
-		keyboardService.addButton(new ReplyKeyboardButton("3"));
-		JSONObject JSONKeyboard = keyboardService.getKeyboard();
-		JSONObject jsonObject = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Test\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
+		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
+				"{\"chat_id\":-386295340, \"text\":\"Inline keyboard\", \"reply_markup\":" + JSONKeyboard.toString()+"}");
+		//Проверка, что ответ не пустой
+		Assertions.assertNotNull(response);
+		//Проверка, что ответ удачный
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 }
