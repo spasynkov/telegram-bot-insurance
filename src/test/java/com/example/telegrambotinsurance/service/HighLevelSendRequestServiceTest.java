@@ -4,7 +4,7 @@ package com.example.telegrambotinsurance.service;
 
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
-import net.minidev.json.JSONObject;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"),
+		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
@@ -51,7 +51,7 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"),
+		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
@@ -66,7 +66,7 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"),
+		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
@@ -83,7 +83,7 @@ public class HighLevelSendRequestServiceTest {
 
 		Assertions.assertNotNull(response);
 
-		Assertions.assertEquals("true", response.getAsString("ok"),
+		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 }

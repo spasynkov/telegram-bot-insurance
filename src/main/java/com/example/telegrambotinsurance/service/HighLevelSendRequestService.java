@@ -4,7 +4,7 @@ package com.example.telegrambotinsurance.service;
 
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
-import net.minidev.json.JSONObject;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class HighLevelSendRequestService {
 		CHAT_ID("?chat_id="), TEXT("&text=");
 
 
-		private String request;
+		private final String request;
 
 		TGApiRequest(String request) {
 			this.request = request;
