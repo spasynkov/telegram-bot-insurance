@@ -1,7 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
-//ToDo - заменить на org.json.JSONObject
-import net.minidev.json.JSONObject;
+
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ class SendRequestsServiceTest {
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertTrue("true".equals(response.getAsString("ok")),"Wrong response from telegram servers, field: ok = false");
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 
 	/**
@@ -36,10 +36,10 @@ class SendRequestsServiceTest {
 	@Test
 	void sendPost() {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
-				"{\"chat_id\":-1001484722738, \"text\":\"Testing sendPost()\"}");
+				"{\"chat_id\":-386295340, \"text\":\"Testing sendPost()\"}");
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
-		Assertions.assertTrue("true".equals(response.getAsString("ok")),"Wrong response from telegram servers, field: ok = false");
+		Assertions.assertEquals(response.optString("ok"), "true", "Wrong response from telegram servers, field: ok = false");
 	}
 }
