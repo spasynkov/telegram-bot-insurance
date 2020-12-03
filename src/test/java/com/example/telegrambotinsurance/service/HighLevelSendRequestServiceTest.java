@@ -1,7 +1,6 @@
 package com.example.telegrambotinsurance.service;
 
 
-
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
 import org.json.JSONObject;
@@ -17,6 +16,10 @@ import java.util.Map;
 @SpringBootTest
 public class HighLevelSendRequestServiceTest {
 
+	/**
+	 * fields and class instances required for testing sending
+	 * and receiving a response from the telegram API using spring boot
+	 */
 	@Autowired
 	HighLevelSendRequestService highLevelSendRequestService;
 	@Autowired
@@ -27,6 +30,9 @@ public class HighLevelSendRequestServiceTest {
 	@Qualifier("BotsWithTokens")
 	Map<String, AbstractBot> bots;
 
+	/**
+	 * testing the "getMe" request
+	 */
 	@Test
 	public void methodGetMeShouldReturnedJSONAnswer() {
 
@@ -34,12 +40,17 @@ public class HighLevelSendRequestServiceTest {
 
 		JSONObject response = highLevelSendRequestService.getMe(bot, token);
 
+		// response must be not null
 		Assertions.assertNotNull(response);
 
+		// response must have "ok" status
 		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
+	/**
+	 * testing the "getChat" request with long chat ID
+	 */
 	@Test
 	public void integerMethodGetChatShouldReturnedJSONAnswer() {
 
@@ -49,12 +60,17 @@ public class HighLevelSendRequestServiceTest {
 
 		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
 
+		// response must be not null
 		Assertions.assertNotNull(response);
 
+		// response must have "ok" status
 		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
+	/**
+	 * testing the "getChat" request with String chat ID
+	 */
 	@Test
 	public void stringMethodGetChatShouldReturnedJSONAnswer() {
 
@@ -64,12 +80,17 @@ public class HighLevelSendRequestServiceTest {
 
 		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
 
+		// response must be not null
 		Assertions.assertNotNull(response);
 
+		// response must have "ok" status
 		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
 
+	/**
+	 * testing the "sendMessage" request without keyboard
+	 */
 	@Test
 	public void sendMessageWithOutKeyBoardShouldReturnedJSONAnswer() {
 		String chatId = "1029944281";
@@ -81,8 +102,10 @@ public class HighLevelSendRequestServiceTest {
 
 		JSONObject response = highLevelSendRequestService.sendMessage(bot, token, message);
 
+		// response must be not null
 		Assertions.assertNotNull(response);
 
+		// response must have "ok" status
 		Assertions.assertEquals("true", response.optString("ok"),
 				"Wrong response from TG API, field: ok = false ");
 	}
