@@ -1,5 +1,6 @@
 package com.example.telegrambotinsurance.service;
 
+import com.example.telegrambotinsurance.exception.MessageValidationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class WebhookHandlerServiceImplTest {
@@ -54,5 +56,19 @@ class WebhookHandlerServiceImplTest {
 		String actual = webhookHandlerService.receiveAndProcessMessage(token, source);
 
 		assertEquals(expected, actual, "The OK status test failed.");
+	}
+
+	@Test
+	void testReceiveAndProcessMessage_ForNullJsonObject() {
+		JSONObject source = null;
+
+		Exception exception = assertThrows(MessageValidationException.class, () ->
+				webhookHandlerService.receiveAndProcessMessage(token, source)
+		);
+
+		String expectedMessage = "The incoming object cannot be null.";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(actualMessage, expectedMessage, "The test for an incoming null object failed.");
 	}
 }
