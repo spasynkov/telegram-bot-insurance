@@ -71,4 +71,18 @@ class WebhookHandlerServiceImplTest {
 
 		assertEquals(actualMessage, expectedMessage, "The test for an incoming null object failed.");
 	}
+
+	@Test
+	void testReceiveAndProcessMessage_ForEmptyJsonObject() {
+		JSONObject source = new JSONObject();
+
+		Exception exception = assertThrows(MessageValidationException.class, () ->
+				webhookHandlerService.receiveAndProcessMessage(token, source)
+		);
+
+		String expectedMessage = "The 'incoming' object cannot be empty.";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(actualMessage, expectedMessage, "The test for an incoming empty object failed.");
+	}
 }
