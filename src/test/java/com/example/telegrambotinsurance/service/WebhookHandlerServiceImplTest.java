@@ -4,9 +4,14 @@ import com.example.telegrambotinsurance.exception.MessageValidationException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -18,6 +23,18 @@ class WebhookHandlerServiceImplTest {
 
 	@Value("${bot.insurance.token}")
 	String token;
+
+	private static Stream<Arguments> provideStringsForTest() {
+		return Stream.of(
+				Arguments.of(null, "The incoming object cannot be null."),
+				Arguments.of("{}", "The 'incoming' object cannot be empty."),
+				Arguments.of("{" +
+						"\"update_id\": 641170930," +
+						"\"message\": {" +
+						"}" +
+						"}", "The 'message' object cannot be empty.")
+		);
+	}
 
 	@Test
 	void testReceiveAndProcessMessage_ShouldReturnOkStatus() {
@@ -58,31 +75,16 @@ class WebhookHandlerServiceImplTest {
 		assertEquals(expected, actual, "The OK status test failed.");
 	}
 
-	@Test
-	void testReceiveAndProcessMessage_ForNullJsonObject() {
-		JSONObject source = null;
+	@ParameterizedTest
+	@MethodSource("provideStringsForTest")
+	void testReceiveAndProcessMessage_ForEmptyJsonObject(String json, String expectedMessage) {
+		JSONObject source = json == null ? null : new JSONObject(json);
 
 		Exception exception = assertThrows(MessageValidationException.class, () ->
 				webhookHandlerService.receiveAndProcessMessage(token, source)
 		);
-
-		String expectedMessage = "The incoming object cannot be null.";
 		String actualMessage = exception.getMessage();
 
-		assertEquals(actualMessage, expectedMessage, "The test for an incoming null object failed.");
-	}
-
-	@Test
-	void testReceiveAndProcessMessage_ForEmptyJsonObject() {
-		JSONObject source = new JSONObject();
-
-		Exception exception = assertThrows(MessageValidationException.class, () ->
-				webhookHandlerService.receiveAndProcessMessage(token, source)
-		);
-
-		String expectedMessage = "The 'incoming' object cannot be empty.";
-		String actualMessage = exception.getMessage();
-
-		assertEquals(actualMessage, expectedMessage, "The test for an incoming empty object failed.");
+		assertEquals(actualMessage, expectedMessage, "The test '" + expectedMessage + "' failed.");
 	}
 }
