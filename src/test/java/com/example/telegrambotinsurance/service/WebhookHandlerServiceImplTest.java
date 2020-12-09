@@ -131,7 +131,7 @@ class WebhookHandlerServiceImplTest {
 
 	@ParameterizedTest
 	@MethodSource("provideStringsForTest")
-	void testReceiveAndProcessMessage_ForEmptyJsonObject(String json, String expectedMessage) {
+	void testReceiveAndProcessMessage_ShouldThrowsMessageException(String json, String expectedMessage) {
 		JSONObject source = json == null ? null : new JSONObject(json);
 
 		Exception exception = assertThrows(MessageValidationException.class, () ->
