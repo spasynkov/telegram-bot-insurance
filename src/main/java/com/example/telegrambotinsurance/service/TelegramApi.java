@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TelegramApi {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(TelegramApi.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TelegramApi.class);
 	/**
 	 * instance of a class for sending low-level requests to the telegram API
 	*/
