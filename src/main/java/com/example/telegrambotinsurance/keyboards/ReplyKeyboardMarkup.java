@@ -1,15 +1,13 @@
 package com.example.telegrambotinsurance.keyboards;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.util.List;
 
 /**
  * Встроенная клавиатура
  */
-@NoArgsConstructor
-@Getter
+@Builder
 public class ReplyKeyboardMarkup extends AbstractKeyboard{
 
 	public List<List<Button>> getKeyboard(){
@@ -37,10 +35,4 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard{
 	 *  Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
 	 */
 	private Boolean selective = null;
-
-	public ReplyKeyboardMarkup(Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective) {
-		this.resize_keyboard = resize_keyboard;
-		this.one_time_keyboard = one_time_keyboard;
-		this.selective = selective;
-	}
 }

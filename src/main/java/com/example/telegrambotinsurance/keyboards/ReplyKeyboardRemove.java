@@ -1,11 +1,11 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-public class ReplyKeyboardRemove implements Keyboard{
+@Builder
+public class ReplyKeyboardRemove implements Markup {
 
 	/**
 	 * Если true, то у пользователя удалится клавиатура
@@ -13,7 +13,7 @@ public class ReplyKeyboardRemove implements Keyboard{
 	 *  если вы хотите скрыть клавиатуру от глаз,
 	 *  но сохранить ее доступной, используйте one_time_keyboard в ReplyKeyboardMarkup)
 	 */
-	public Boolean remove_keyboard = true;
+	public final Boolean remove_keyboard = true;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -27,11 +27,4 @@ public class ReplyKeyboardRemove implements Keyboard{
 	 * по-прежнему показывая клавиатуру с параметрами опроса пользователям, которые еще не проголосовали.
 	 */
 	public Boolean selective;
-
-	/**
-	 * @param selective
-	 */
-	public ReplyKeyboardRemove(Boolean selective) {
-		this.selective = selective;
-	}
 }
