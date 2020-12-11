@@ -14,14 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
 
 @SpringBootTest
-public class HighLevelSendRequestServiceTest {
+public class TelegramApiTest {
 
 	/**
 	 * fields and class instances required for testing sending
 	 * and receiving a response from the telegram API using spring boot
 	 */
 	@Autowired
-	HighLevelSendRequestService highLevelSendRequestService;
+	TelegramApi telegramApi;
 	@Autowired
 	SendRequestsService sendRequestsService;
 	@Value("${bot.insurance.token}")
@@ -38,7 +38,7 @@ public class HighLevelSendRequestServiceTest {
 
 		AbstractBot bot = bots.get(token);
 
-		JSONObject response = highLevelSendRequestService.getMe(bot, token);
+		JSONObject response = telegramApi.getMe(bot, token);
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -58,7 +58,7 @@ public class HighLevelSendRequestServiceTest {
 
 		AbstractBot bot = bots.get(token);
 
-		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
+		JSONObject response = telegramApi.getChat(bot, token, chatId);
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -78,7 +78,7 @@ public class HighLevelSendRequestServiceTest {
 
 		AbstractBot bot = bots.get(token);
 
-		JSONObject response = highLevelSendRequestService.getChat(bot, token, chatId);
+		JSONObject response = telegramApi.getChat(bot, token, chatId);
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -100,7 +100,7 @@ public class HighLevelSendRequestServiceTest {
 		message.setStringChatId(chatId);
 		message.setText(text);
 
-		JSONObject response = highLevelSendRequestService.sendMessage(bot, token, message);
+		JSONObject response = telegramApi.sendMessage(bot, token, message);
 
 		// response must be not null
 		Assertions.assertNotNull(response);

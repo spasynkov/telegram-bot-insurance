@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class HighLevelSendRequestService {
+public class TelegramApi {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(HighLevelSendRequestService.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(TelegramApi.class);
 	/**
 	 * instance of a class for sending low-level requests to the telegram API
 	*/
@@ -25,7 +25,7 @@ public class HighLevelSendRequestService {
 	 * class for creating requests to the telegram API
 	 */
 	@Autowired
-	public HighLevelSendRequestService(SendRequestsService sendRequestsService) {
+	public TelegramApi(SendRequestsService sendRequestsService) {
 		this.sendRequestsService = sendRequestsService;
 	}
 
