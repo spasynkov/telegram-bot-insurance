@@ -7,11 +7,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Map;
 
 @SpringBootTest
 public class TelegramApiTest {
@@ -22,13 +20,18 @@ public class TelegramApiTest {
 	 */
 	@Autowired
 	TelegramApi telegramApi;
+
+	private final AbstractBot bot;
+
+	/**
+	 * constructor to obtain an instance of the bot
+	 * @param token token of the bot
+	 * @param service instance to obtain an instance of the bot
+	 */
 	@Autowired
-	SendRequestsService sendRequestsService;
-	@Value("${bot.insurance.token}")
-	String token;
-	@Autowired
-	@Qualifier("BotsWithTokens")
-	Map<String, AbstractBot> bots;
+	public TelegramApiTest(@Value("${bot.insurance.token}") String token, BotService service) {
+		this.bot = service.findBotByToken(token);
+	}
 
 	/**
 	 * testing the "getMe" request
@@ -36,9 +39,7 @@ public class TelegramApiTest {
 	@Test
 	public void methodGetMeShouldReturnedJSONAnswer() {
 
-		AbstractBot bot = bots.get(token);
-
-		JSONObject response = telegramApi.getMe(bot, token);
+		JSONObject response = telegramApi.getMe(bot, bot.getToken());
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -56,9 +57,7 @@ public class TelegramApiTest {
 
 		long chatId = 871614990;
 
-		AbstractBot bot = bots.get(token);
-
-		JSONObject response = telegramApi.getChat(bot, token, chatId);
+		JSONObject response = telegramApi.getChat(bot, bot.getToken(), chatId);
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -76,9 +75,8 @@ public class TelegramApiTest {
 
 		String chatId = "871614990";
 
-		AbstractBot bot = bots.get(token);
 
-		JSONObject response = telegramApi.getChat(bot, token, chatId);
+		JSONObject response = telegramApi.getChat(bot, bot.getToken(), chatId);
 
 		// response must be not null
 		Assertions.assertNotNull(response);
@@ -95,12 +93,11 @@ public class TelegramApiTest {
 	public void sendMessageWithOutKeyBoardShouldReturnedJSONAnswer() {
 		String chatId = "1029944281";
 		String text = "Don`t worry, be happy";
-		AbstractBot bot = bots.get(token);
 		OutgoingMessage message = new OutgoingMessage();
 		message.setStringChatId(chatId);
 		message.setText(text);
 
-		JSONObject response = telegramApi.sendMessage(bot, token, message);
+		JSONObject response = telegramApi.sendMessage(bot, bot.getToken(), message);
 
 		// response must be not null
 		Assertions.assertNotNull(response);

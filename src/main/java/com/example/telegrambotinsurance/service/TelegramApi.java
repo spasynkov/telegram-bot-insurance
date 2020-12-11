@@ -1,7 +1,6 @@
 package com.example.telegrambotinsurance.service;
 
 
-
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
 import org.json.JSONObject;
@@ -17,7 +16,7 @@ public class TelegramApi {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TelegramApi.class);
 	/**
 	 * instance of a class for sending low-level requests to the telegram API
-	*/
+	 */
 	SendRequestsService sendRequestsService;
 
 	/**
@@ -31,8 +30,9 @@ public class TelegramApi {
 
 	/**
 	 * Method for sending a message to the telegram API without using the keyboard
-	 * @param bot an instance of the bot
-	 * @param token a token of the bot
+	 *
+	 * @param bot     an instance of the bot
+	 * @param token   a token of the bot
 	 * @param message message text
 	 * @return response from the API telegram
 	 */
@@ -49,22 +49,23 @@ public class TelegramApi {
 
 	/**
 	 * Method for sending a message to the telegram API with using the keyboard
-	 * @param bot an instance of the bot
-	 * @param token a token of the bot
-	 * @param message message text
+	 *
+	 * @param bot      an instance of the bot
+	 * @param message  message text
 	 * @param keyboard an instance of keyboard
 	 * @return response from the API telegram
 	 */
 	//TODO implement the sendMessage method with the keyboard!!!
-	public JSONObject sendMessage(AbstractBot bot, String token, OutgoingMessage message,
+	public JSONObject sendMessage(AbstractBot bot, OutgoingMessage message,
 	                              JSONObject keyboard) {
 		return new JSONObject();
 	}
 
 	/**
 	 * this method returns information about the chat
-	 * @param bot an instance of the bot
-	 * @param token a token of the bot
+	 *
+	 * @param bot    an instance of the bot
+	 * @param token  a token of the bot
 	 * @param chatId String type chat ID
 	 * @return response from the API telegram
 	 */
@@ -78,8 +79,9 @@ public class TelegramApi {
 
 	/**
 	 * this method returns information about the chat
-	 * @param bot an instance of the bot
-	 * @param token a token of the bot
+	 *
+	 * @param bot    an instance of the bot
+	 * @param token  a token of the bot
 	 * @param chatId long type chat ID
 	 * @return response from the API telegram
 	 */
@@ -93,7 +95,8 @@ public class TelegramApi {
 
 	/**
 	 * this method returns basic information about the bot
-	 * @param bot an instance of the bot
+	 *
+	 * @param bot   an instance of the bot
 	 * @param token a token of the bot
 	 * @return response from the API telegram
 	 */
@@ -119,6 +122,7 @@ public class TelegramApi {
 
 		/**
 		 * constructor
+		 *
 		 * @param request value of the enum used
 		 */
 		TGApiRequest(String request) {
@@ -127,6 +131,7 @@ public class TelegramApi {
 
 		/**
 		 * this method returns value of the enum used
+		 *
 		 * @return value of  the enum used
 		 */
 		public String getRequest() {
