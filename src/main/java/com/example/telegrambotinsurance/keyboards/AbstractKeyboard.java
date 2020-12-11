@@ -1,14 +1,15 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractKeyboard implements Keyboard{
-	protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractKeyboard.class);
-	private String exceptionMessage = "Row under this number doesn't exist";
+public abstract class AbstractKeyboard implements Markup {
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKeyboard.class);
+
 	/**
 	 * Лист листов кнопок
 	 */
@@ -30,12 +31,12 @@ public abstract class AbstractKeyboard implements Keyboard{
 	 * @param rowNumber Позиция ряда в List
 	 * @param button Кнопка
 	 */
-	public void addButton(int positionInTheRow, int rowNumber,Button button){
+	public void addButton(int rowNumber, int positionInTheRow, Button button){
 		try {
 			keyboard.get(rowNumber).add(positionInTheRow,button);
 		}
 		catch (IndexOutOfBoundsException e){
-			LOGGER.debug(exceptionMessage);
+			LOGGER.debug("Row under this number doesn't exist");
 		}
 	}
 
@@ -47,12 +48,9 @@ public abstract class AbstractKeyboard implements Keyboard{
 	 * @param button Кнопка
 	 */
 	public void addButton(int positionInTheRow,Button button){
-		try {
-			keyboard.get(keyboard.size()-1).add(positionInTheRow,button);
-		}
-		catch (IndexOutOfBoundsException e){
-			LOGGER.debug(exceptionMessage);
-		}
+		int rowNumber = keyboard.size()-1;
+
+		addButton(rowNumber,positionInTheRow,button);
 	}
 
 	/**
@@ -62,11 +60,13 @@ public abstract class AbstractKeyboard implements Keyboard{
 	 * @param button Кнопка
 	 */
 	public void addButton(Button button) {
-		try {
-			keyboard.get(keyboard.size()-1).add(button);
-		}
-		catch (IndexOutOfBoundsException e){
-			LOGGER.debug(exceptionMessage);
-		}
+		int positionInTheRow = keyboard.get(keyboard.size()-1).size();
+
+		addButton(positionInTheRow,button);
+	}
+
+
+	public JSONObject toJson(){
+		return new JSONObject(this);
 	}
 }
