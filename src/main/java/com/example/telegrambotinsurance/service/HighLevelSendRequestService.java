@@ -1,7 +1,7 @@
 package com.example.telegrambotinsurance.service;
 
 
-//TODO implement the sendMessage method with the keyboard!!!
+
 import com.example.telegrambotinsurance.modelbot.AbstractBot;
 import com.example.telegrambotinsurance.modelbot.OutgoingMessage;
 import org.json.JSONObject;
@@ -55,6 +55,7 @@ public class HighLevelSendRequestService {
 	 * @param keyboard an instance of keyboard
 	 * @return response from the API telegram
 	 */
+	//TODO implement the sendMessage method with the keyboard!!!
 	public JSONObject sendMessage(AbstractBot bot, String token, OutgoingMessage message,
 	                              JSONObject keyboard) {
 		return new JSONObject();
