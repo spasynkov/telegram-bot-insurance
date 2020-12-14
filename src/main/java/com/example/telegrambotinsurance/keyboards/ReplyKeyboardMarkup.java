@@ -1,16 +1,20 @@
 package com.example.telegrambotinsurance.keyboards;
 
-import lombok.Builder;
-
 import java.util.List;
 
 /**
  * Встроенная клавиатура
  */
-@Builder
-public class ReplyKeyboardMarkup extends AbstractKeyboard{
+public class ReplyKeyboardMarkup extends AbstractKeyboard {
 
-	public List<List<Button>> getKeyboard(){
+	private ReplyKeyboardMarkup(List<List<Button>> keyboard, Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective) {
+		this.keyboard = keyboard;
+		this.resize_keyboard = resize_keyboard;
+		this.one_time_keyboard = one_time_keyboard;
+		this.selective = selective;
+	}
+
+	public List<List<Button>> getKeyboard() {
 		return keyboard;
 	}
 
@@ -35,4 +39,44 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard{
 	 *  Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
 	 */
 	private Boolean selective = null;
+
+	public static ReplyKeyboardMarkup.ReplyKeyboardBuilder builder() {
+		return new ReplyKeyboardMarkup.ReplyKeyboardBuilder();
+	}
+
+	public static class ReplyKeyboardBuilder extends AbstractKeyboard.AbstractKeyboardBuilder<ReplyKeyboardMarkup> {
+		private Boolean resize_keyboard = false;
+
+		private Boolean one_time_keyboard = false;
+
+		private Boolean selective = null;
+
+		public ReplyKeyboardBuilder setResize_keyboard(Boolean resize_keyboard) {
+			this.resize_keyboard = resize_keyboard;
+
+			return this;
+		}
+
+		public ReplyKeyboardBuilder setOne_time_keyboard(Boolean one_time_keyboard) {
+			this.one_time_keyboard = one_time_keyboard;
+
+			return this;
+		}
+
+		public ReplyKeyboardBuilder setSelective(Boolean selective) {
+			this.selective = selective;
+
+			return this;
+		}
+
+		/**
+		 * Возращает собранный объект
+		 *
+		 * @return ReplyKeyboardMarkup
+		 */
+		@Override
+		public ReplyKeyboardMarkup build() {
+			return new ReplyKeyboardMarkup(keyboard,resize_keyboard,one_time_keyboard,selective);
+		}
+	}
 }
