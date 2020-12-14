@@ -88,4 +88,51 @@ public class InlineKeyboardButton implements Button{
 	 */
 	private Boolean pay;
 
+	private InlineKeyboardButton(String text, String url, String login_url,
+	                            String callback_data, String switch_inline_query,
+	                            String switch_inline_query_current_chat, CallbackGame callback_game, Boolean pay) {
+		this.text = text;
+		this.url = url;
+		this.login_url = login_url;
+		this.callback_data = callback_data;
+		this.switch_inline_query = switch_inline_query;
+		this.switch_inline_query_current_chat = switch_inline_query_current_chat;
+		this.callback_game = callback_game;
+		this.pay = pay;
+	}
+
+	public static class InlineKeyboardButtonBuilder {
+		private String text;
+		private String url;
+		private String login_url;
+		private String callback_data;
+		private String switch_inline_query;
+		private String switch_inline_query_current_chat;
+		private CallbackGame callback_game;
+		private Boolean pay;
+
+		public InlineKeyboardButton build() {
+			verifyButtonFormat();
+
+			return new InlineKeyboardButton(text, url, login_url, callback_data,
+					switch_inline_query, switch_inline_query_current_chat,
+					callback_game, pay);
+		}
+
+		private void verifyButtonFormat() {
+			if (text == null || text.isEmpty()) {
+				throw new IllegalStateException("The button must contain text.");
+			}
+			int numberOfFieldsSet = 0;
+			if (url != null) ++numberOfFieldsSet;
+			if (login_url != null) ++numberOfFieldsSet;
+			if (callback_data != null) ++numberOfFieldsSet;
+			if (switch_inline_query != null) ++numberOfFieldsSet;
+			if (switch_inline_query_current_chat != null) ++numberOfFieldsSet;
+			if (callback_game != null) ++numberOfFieldsSet;
+			if (pay != null) ++numberOfFieldsSet;
+			if (numberOfFieldsSet != 1)
+				throw new IllegalStateException("The button should have only one optional field.");
+		}
+	}
 }
