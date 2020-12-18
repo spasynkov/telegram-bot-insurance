@@ -85,6 +85,5 @@ class WebhookHandlerControllerTest {
 				.expectStatus().isOk()
 				.expectBody()
 				.json(expectedMessage);
-
 	}
 }
