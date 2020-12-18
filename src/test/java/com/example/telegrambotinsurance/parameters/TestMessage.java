@@ -55,7 +55,7 @@ public class TestMessage {
 				Arguments.of(null, "The incoming object cannot be null."),
 				Arguments.of("{}", "The 'incoming' object cannot be empty."),
 				Arguments.of("{" +
-								"\"update_id\": 641170930," +
+								"\"update_id\": 641170930" +
 								"}",
 						"There is no 'message' block in object."),
 				Arguments.of("{" +
