@@ -66,7 +66,7 @@ class WebhookHandlerControllerTest {
 
 	@ParameterizedTest
 	@MethodSource("com.example.telegrambotinsurance.parameters.TestMessage#provideStringsForTest")
-	void testReceiveAndProcessMessage_ShouldReturnOkStatus(String json, String message) {
+	void testReceiveAndProcessMessage_ShouldReturnMessageException(String json, String message) {
 		String uri = "/rest/" + token;
 
 		String expectedMessage = String.format("{\"error\":%s}", message);
