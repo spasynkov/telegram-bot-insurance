@@ -2,6 +2,7 @@ package com.example.telegrambotinsurance.keyboards;
 
 import lombok.Builder;
 import lombok.Data;
+import org.json.JSONPropertyName;
 
 @Data
 @Builder
@@ -27,7 +28,7 @@ public class InlineKeyboardButton implements Button{
 	 * url callback/webhook, используемый для автоматической авторизации пользователя
 	 * на сайтах под акккаунтом телеграма(например сайт comments.app)
 	 */
-	private String login_url;
+	private LoginUrl loginUrl;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -37,7 +38,7 @@ public class InlineKeyboardButton implements Button{
 	 *  то при нажатии кнопки, сообщение изменится на "Пока"
 	 *  И ещё много чего можно сделать
 	 */
-	private String callback_data;
+	private String callbackData;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -52,7 +53,7 @@ public class InlineKeyboardButton implements Button{
 	 *  - в этом случае пользователь автоматически вернется в чат,
 	 *  из которого он переключился, пропуская экран выбора чата.
 	 */
-	private String switch_inline_query;
+	private String switchInlineQuery;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -67,7 +68,7 @@ public class InlineKeyboardButton implements Button{
 	 * Это предлагает пользователю быстрый способ открыть вашего бота во встроенном режиме в том же чате
 	 * - удобно для выбора из нескольких вариантов.
 	 */
-	private String switch_inline_query_current_chat;
+	private String switchInlineQueryCurrentChat;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -76,7 +77,7 @@ public class InlineKeyboardButton implements Button{
 	 * ПРИМЕЧАНИЕ.
 	 *  Кнопка этого типа всегда ДОЛЖНА быть первой в первом ряду кнопок.
 	 */
-	private CallbackGame callback_game;
+	private CallbackGame callbackGame;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
@@ -88,48 +89,70 @@ public class InlineKeyboardButton implements Button{
 	 */
 	private Boolean pay;
 
-	private InlineKeyboardButton(String text, String url, String login_url,
-	                            String callback_data, String switch_inline_query,
-	                            String switch_inline_query_current_chat, CallbackGame callback_game, Boolean pay) {
-		this.text = text;
-		this.url = url;
-		this.login_url = login_url;
-		this.callback_data = callback_data;
-		this.switch_inline_query = switch_inline_query;
-		this.switch_inline_query_current_chat = switch_inline_query_current_chat;
-		this.callback_game = callback_game;
-		this.pay = pay;
+	@JSONPropertyName("login_url")
+	public LoginUrl getLoginUrl() {
+		return loginUrl;
 	}
 
+	@JSONPropertyName("callback_data")
+	public String getCallbackData() {
+		return callbackData;
+	}
+
+	@JSONPropertyName("switch_inline_query")
+	public String getSwitchInlineQuery() {
+		return switchInlineQuery;
+	}
+
+	@JSONPropertyName("switch_inline_query_current_chat")
+	public String getSwitchInlineQueryCurrentChat() {
+		return switchInlineQueryCurrentChat;
+	}
+
+	@JSONPropertyName("callback_game")
+	public CallbackGame getCallbackGame() {
+		return callbackGame;
+	}
+
+	private InlineKeyboardButton(String text, String url, LoginUrl loginUrl,
+	                             String callbackData, String switchInlineQuery,
+	                             String switchInlineQueryCurrentChat, CallbackGame callbackGame, Boolean pay) {
+		this.text = text;
+		this.url = url;
+		this.loginUrl = loginUrl;
+		this.callbackData = callbackData;
+		this.switchInlineQuery = switchInlineQuery;
+		this.switchInlineQueryCurrentChat = switchInlineQueryCurrentChat;
+		this.callbackGame = callbackGame;
+		this.pay = pay;
+	}
+	/*
+	В этом классе переопределяются нужный нам метод из lombok builder
+	 */
 	public static class InlineKeyboardButtonBuilder {
-		private String text;
-		private String url;
-		private String login_url;
-		private String callback_data;
-		private String switch_inline_query;
-		private String switch_inline_query_current_chat;
-		private CallbackGame callback_game;
-		private Boolean pay;
 
 		public InlineKeyboardButton build() {
 			verifyButtonFormat();
 
-			return new InlineKeyboardButton(text, url, login_url, callback_data,
-					switch_inline_query, switch_inline_query_current_chat,
-					callback_game, pay);
+			return new InlineKeyboardButton(text, url, loginUrl, callbackData,
+					switchInlineQuery, switchInlineQueryCurrentChat,
+					callbackGame, pay);
 		}
 
+		/**
+		 * Проверка кнопки под формат API Telegram
+		 */
 		private void verifyButtonFormat() {
 			if (text == null || text.isEmpty()) {
 				throw new IllegalStateException("The button must contain text.");
 			}
 			int numberOfFieldsSet = 0;
 			if (url != null) ++numberOfFieldsSet;
-			if (login_url != null) ++numberOfFieldsSet;
-			if (callback_data != null) ++numberOfFieldsSet;
-			if (switch_inline_query != null) ++numberOfFieldsSet;
-			if (switch_inline_query_current_chat != null) ++numberOfFieldsSet;
-			if (callback_game != null) ++numberOfFieldsSet;
+			if (loginUrl != null) ++numberOfFieldsSet;
+			if (callbackData != null) ++numberOfFieldsSet;
+			if (switchInlineQuery != null) ++numberOfFieldsSet;
+			if (switchInlineQueryCurrentChat != null) ++numberOfFieldsSet;
+			if (callbackGame != null) ++numberOfFieldsSet;
 			if (pay != null) ++numberOfFieldsSet;
 			if (numberOfFieldsSet != 1)
 				throw new IllegalStateException("The button should have only one optional field.");

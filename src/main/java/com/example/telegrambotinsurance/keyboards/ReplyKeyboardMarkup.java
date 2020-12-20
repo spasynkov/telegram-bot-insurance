@@ -45,6 +45,7 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard {
 	}
 
 	public static class ReplyKeyboardBuilder extends AbstractKeyboard.AbstractKeyboardBuilder<ReplyKeyboardMarkup> {
+
 		private Boolean resize_keyboard = false;
 
 		private Boolean one_time_keyboard = false;

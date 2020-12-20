@@ -1,6 +1,7 @@
 package com.example.telegrambotinsurance.keyboards;
 
 import lombok.Getter;
+import org.apache.commons.lang3.builder.Builder;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,7 @@ public abstract class AbstractKeyboard implements Markup {
 	 */
 	protected List<List<Button>> keyboard = new ArrayList<>();
 
-	public JSONObject toJson() {
-		return new JSONObject(this);
-	}
-
- 	public static abstract class AbstractKeyboardBuilder<T> {
+ 	public static abstract class AbstractKeyboardBuilder<T> implements Builder<T> {
 		protected List<List<Button>> keyboard = new ArrayList<>();
 
 		/**
@@ -61,7 +58,7 @@ public abstract class AbstractKeyboard implements Markup {
 		 * @param button Кнопка
 		 */
 		public AbstractKeyboard.AbstractKeyboardBuilder<T> addButton(int positionInTheRow,Button button) {
-			int rowNumber = keyboard.size()-1;
+			int rowNumber = getLastRowIndex();
 
 			addButton(rowNumber,positionInTheRow,button);
 
@@ -75,18 +72,15 @@ public abstract class AbstractKeyboard implements Markup {
 		 * @param button Кнопка
 		 */
 		public AbstractKeyboard.AbstractKeyboardBuilder<T> addButton(Button button) {
-			int positionInTheRow = keyboard.get(keyboard.size()-1).size();
+			int positionInTheRow = keyboard.get(getLastRowIndex()).size();
 
 			addButton(positionInTheRow,button);
 
 			return this;
 		}
 
-	    /**
-	     * Возращает собиранный объект
-	     *
-		 * @return T
-		 */
-		public abstract T build();
+		public int getLastRowIndex() {
+			return keyboard.size()-1;
+		}
 	}
 }
