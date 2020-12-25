@@ -24,6 +24,7 @@ class SendRequestsServiceTest {
 	@Test
 	void sendGet() {
 		JSONObject response = sendRequestsService.sendGet(token,"getMe");
+		//ToDo заменить проверки на TestUtils.checkTelegramResponseAfterSendingMessage(response);
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
@@ -37,6 +38,7 @@ class SendRequestsServiceTest {
 	void sendPost() {
 		JSONObject response = sendRequestsService.sendPost(token,"sendMessage",
 				"{\"chat_id\":-386295340, \"text\":\"Testing sendPost()\"}");
+		//ToDo заменить проверки на TestUtils.checkTelegramResponseAfterSendingMessage(response);
 		//Проверка, что ответ не пустой
 		Assertions.assertNotNull(response);
 		//Проверка, что ответ удачный
