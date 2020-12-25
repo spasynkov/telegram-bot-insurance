@@ -1,8 +1,10 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import org.json.JSONPropertyName;
+
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONPropertyName;
+import lombok.Getter;
 
 @Builder
 @Data
@@ -27,6 +29,7 @@ public class LoginUrl {
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Текст кнопки в перенаправленных сообщениях.
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("forward_text"))
 	private String forwardText;
 
 	/**
@@ -38,26 +41,13 @@ public class LoginUrl {
 	 * Дополнительные сведения см. В разделе Telegram API «Связывание домена с ботом».
 	 * -> https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("bot_username"))
 	private String botUsername;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Передайте True, чтобы запросить у вашего бота разрешение на отправку сообщений пользователю.
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("request_write_access"))
 	private Boolean requestWriteAccess;
-
-	@JSONPropertyName("forward_text")
-	public String getForwardText() {
-		return forwardText;
-	}
-
-	@JSONPropertyName("bot_username")
-	public String getBotUsername() {
-		return botUsername;
-	}
-
-	@JSONPropertyName("request_write_access")
-	public Boolean getRequestWriteAccess() {
-		return requestWriteAccess;
-	}
 }

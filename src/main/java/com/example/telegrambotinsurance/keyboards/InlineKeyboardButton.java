@@ -1,8 +1,10 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import org.json.JSONPropertyName;
+
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONPropertyName;
+import lombok.Getter;
 
 @Data
 @Builder
@@ -28,16 +30,18 @@ public class InlineKeyboardButton implements Button{
 	 * url callback/webhook, используемый для автоматической авторизации пользователя
 	 * на сайтах под акккаунтом телеграма(например сайт comments.app)
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("login_url"))
 	private LoginUrl loginUrl;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Данные для отправки боту в ответном запросе при нажатии кнопки, 1-64 байта
 	 * НАПРИМЕР
-	 *  Бот отправил сообщение "Привет" с Inline клавиатурой,
-	 *  то при нажатии кнопки, сообщение изменится на "Пока"
-	 *  И ещё много чего можно сделать
+	 * Бот отправил сообщение "Привет" с Inline клавиатурой,
+	 * то при нажатии кнопки, сообщение изменится на "Пока"
+	 * И ещё много чего можно сделать
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("callback_data"))
 	private String callbackData;
 
 	/**
@@ -53,6 +57,7 @@ public class InlineKeyboardButton implements Button{
 	 *  - в этом случае пользователь автоматически вернется в чат,
 	 *  из которого он переключился, пропуская экран выбора чата.
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("switch_inline_query"))
 	private String switchInlineQuery;
 
 	/**
@@ -68,15 +73,17 @@ public class InlineKeyboardButton implements Button{
 	 * Это предлагает пользователю быстрый способ открыть вашего бота во встроенном режиме в том же чате
 	 * - удобно для выбора из нескольких вариантов.
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("switch_inline_query_current_chat"))
 	private String switchInlineQueryCurrentChat;
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Описание игры, которая будет запускаться при нажатии пользователем кнопки.
-	 *
+	 * <p>
 	 * ПРИМЕЧАНИЕ.
-	 *  Кнопка этого типа всегда ДОЛЖНА быть первой в первом ряду кнопок.
+	 * Кнопка этого типа всегда ДОЛЖНА быть первой в первом ряду кнопок.
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("callback_game"))
 	private CallbackGame callbackGame;
 
 	/**
@@ -88,31 +95,6 @@ public class InlineKeyboardButton implements Button{
 	 *  Кнопка этого типа всегда ДОЛЖНА быть первой в первом ряду кнопок.
 	 */
 	private Boolean pay;
-
-	@JSONPropertyName("login_url")
-	public LoginUrl getLoginUrl() {
-		return loginUrl;
-	}
-
-	@JSONPropertyName("callback_data")
-	public String getCallbackData() {
-		return callbackData;
-	}
-
-	@JSONPropertyName("switch_inline_query")
-	public String getSwitchInlineQuery() {
-		return switchInlineQuery;
-	}
-
-	@JSONPropertyName("switch_inline_query_current_chat")
-	public String getSwitchInlineQueryCurrentChat() {
-		return switchInlineQueryCurrentChat;
-	}
-
-	@JSONPropertyName("callback_game")
-	public CallbackGame getCallbackGame() {
-		return callbackGame;
-	}
 
 	private InlineKeyboardButton(String text, String url, LoginUrl loginUrl,
 	                             String callbackData, String switchInlineQuery,

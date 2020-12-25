@@ -1,8 +1,10 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import org.json.JSONPropertyName;
+
 import lombok.Builder;
 import lombok.Data;
-import org.json.JSONPropertyName;
+import lombok.Getter;
 
 @Data
 @Builder
@@ -10,10 +12,11 @@ public class ReplyKeyboardRemove implements Markup {
 
 	/**
 	 * Если true, то у пользователя удалится клавиатура
-	 *  (пользователь не сможет вызвать эту клавиатуру;
-	 *  если вы хотите скрыть клавиатуру от глаз,
-	 *  но сохранить ее доступной, используйте one_time_keyboard в ReplyKeyboardMarkup)
+	 * (пользователь не сможет вызвать эту клавиатуру;
+	 * если вы хотите скрыть клавиатуру от глаз,
+	 * но сохранить ее доступной, используйте one_time_keyboard в ReplyKeyboardMarkup)
 	 */
+	@Getter(onMethod_ = @JSONPropertyName("remove_keyboard"))
 	public final Boolean removeKeyboard = true;
 
 	/**
@@ -28,9 +31,4 @@ public class ReplyKeyboardRemove implements Markup {
 	 * по-прежнему показывая клавиатуру с параметрами опроса пользователям, которые еще не проголосовали.
 	 */
 	public Boolean selective;
-
-	@JSONPropertyName("remove_keyboard")
-	public Boolean getRemoveKeyboard() {
-		return removeKeyboard;
-	}
 }

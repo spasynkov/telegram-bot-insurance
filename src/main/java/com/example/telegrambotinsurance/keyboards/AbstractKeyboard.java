@@ -1,13 +1,13 @@
 package com.example.telegrambotinsurance.keyboards;
 
-import lombok.Getter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.builder.Builder;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
 
 @Getter
 public abstract class AbstractKeyboard implements Markup {

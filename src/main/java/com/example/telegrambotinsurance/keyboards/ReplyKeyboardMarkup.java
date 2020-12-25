@@ -2,43 +2,46 @@ package com.example.telegrambotinsurance.keyboards;
 
 import java.util.List;
 
+import org.json.JSONPropertyName;
+
+import lombok.Getter;
+
 /**
  * Встроенная клавиатура
  */
+@Getter
 public class ReplyKeyboardMarkup extends AbstractKeyboard {
-
-	private ReplyKeyboardMarkup(List<List<Button>> keyboard, Boolean resize_keyboard, Boolean one_time_keyboard, Boolean selective) {
-		this.keyboard = keyboard;
-		this.resize_keyboard = resize_keyboard;
-		this.one_time_keyboard = one_time_keyboard;
-		this.selective = selective;
-	}
-
-	public List<List<Button>> getKeyboard() {
-		return keyboard;
-	}
 
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Подгоняет размер клавиатуры под количество рядов кнопок
 	 * (если false, то клавиатура будет как стандартная у пользователя(на телефоне))
 	 */
-	private Boolean resize_keyboard = false;
+	@Getter(onMethod_ = {@JSONPropertyName("resize_keyboard")})
+	private final Boolean resizeKeyboard;
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Если true, то после использования клавиатура скроется,
 	 * но её можно будет открыть с помощью специальной кнопки
 	 */
-	private Boolean one_time_keyboard = false;
+	@Getter(onMethod_ = {@JSONPropertyName("one_time_keyboard")})
+	private final Boolean oneTimeKeyboard;
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Показывает определенную клавиатуру определенному пользователю
 	 * Пример:
-	 *  Пользователь запрашивает изменение языка бота,
-	 *  бот отвечает на запрос с помощью клавиатуры, чтобы выбрать новый язык.
-	 *  Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
+	 * Пользователь запрашивает изменение языка бота,
+	 * бот отвечает на запрос с помощью клавиатуры, чтобы выбрать новый язык.
+	 * Другие пользователи в группе не видят клавиатуру, который выбрал пользователь.
 	 */
-	private Boolean selective = null;
+	private final Boolean selective;
+
+	private ReplyKeyboardMarkup(List<List<Button>> keyboard, Boolean resizeKeyboard, Boolean oneTimeKeyboard, Boolean selective) {
+		this.keyboard = keyboard;
+		this.resizeKeyboard = resizeKeyboard;
+		this.oneTimeKeyboard = oneTimeKeyboard;
+		this.selective = selective;
+	}
 
 	public static ReplyKeyboardMarkup.ReplyKeyboardBuilder builder() {
 		return new ReplyKeyboardMarkup.ReplyKeyboardBuilder();
@@ -46,25 +49,25 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard {
 
 	public static class ReplyKeyboardBuilder extends AbstractKeyboard.AbstractKeyboardBuilder<ReplyKeyboardMarkup> {
 
-		private Boolean resize_keyboard = false;
+		private Boolean resizeKeyboard = null;
 
-		private Boolean one_time_keyboard = false;
+		private Boolean oneTimeKeyboard = null;
 
 		private Boolean selective = null;
 
-		public ReplyKeyboardBuilder setResize_keyboard(Boolean resize_keyboard) {
-			this.resize_keyboard = resize_keyboard;
+		public ReplyKeyboardBuilder setResizeKeyboard(boolean resizeKeyboard) {
+			this.resizeKeyboard = resizeKeyboard;
 
 			return this;
 		}
 
-		public ReplyKeyboardBuilder setOne_time_keyboard(Boolean one_time_keyboard) {
-			this.one_time_keyboard = one_time_keyboard;
+		public ReplyKeyboardBuilder setOneTimeKeyboard(boolean oneTimeKeyboard) {
+			this.oneTimeKeyboard = oneTimeKeyboard;
 
 			return this;
 		}
 
-		public ReplyKeyboardBuilder setSelective(Boolean selective) {
+		public ReplyKeyboardBuilder setSelective(boolean selective) {
 			this.selective = selective;
 
 			return this;
@@ -77,7 +80,7 @@ public class ReplyKeyboardMarkup extends AbstractKeyboard {
 		 */
 		@Override
 		public ReplyKeyboardMarkup build() {
-			return new ReplyKeyboardMarkup(keyboard,resize_keyboard,one_time_keyboard,selective);
+			return new ReplyKeyboardMarkup(keyboard, resizeKeyboard, oneTimeKeyboard, selective);
 		}
 	}
 }

@@ -1,10 +1,9 @@
 package com.example.telegrambotinsurance.keyboards;
 
+import org.json.JSONPropertyName;
+
 import lombok.Builder;
 import lombok.Getter;
-import org.json.JSONPropertyName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Класс без стандартного конструктора,
@@ -13,11 +12,10 @@ import org.slf4j.LoggerFactory;
 @Getter
 @Builder
 public class ReplyKeyboardButton implements Button {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReplyKeyboardButton.class);
 	/**
 	 * Текст кнопки
 	 */
-	private String text;
+	private final String text;
 	/**
 	 * Следущие две переменные взаимоисключающии
 	 */
@@ -25,22 +23,14 @@ public class ReplyKeyboardButton implements Button {
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Предлагает пользователю отправить свой номер телефона
 	 */
-	private Boolean requestContact = false;
+	@Getter(onMethod_ = @JSONPropertyName("request_contact"))
+	private Boolean requestContact;
 	/**
 	 * ЭТА ПЕРЕМЕННАЯ НЕОБЯЗАТЕЛЬНА
 	 * Предлагает пользователю отправить свою геолокацию
 	 */
-	private Boolean requestLocation = false;
-
-	@JSONPropertyName("request_contact")
-	public Boolean getRequestContact() {
-		return requestContact;
-	}
-
-	@JSONPropertyName("request_location")
-	public Boolean getRequestLocation() {
-		return requestLocation;
-	}
+	@Getter(onMethod_ = @JSONPropertyName("request_location"))
+	private Boolean requestLocation;
 
 	public ReplyKeyboardButton(String text) {
 		this.text = text;
@@ -57,8 +47,8 @@ public class ReplyKeyboardButton implements Button {
 	 */
 	public static class ReplyKeyboardButtonBuilder {
 		private String text;
-		private Boolean requestContact = false;
-		private Boolean requestLocation = false;
+		private final Boolean requestContact = false;
+		private final Boolean requestLocation = false;
 
 		public ReplyKeyboardButton build() {
 			verifyButtonFormat();
@@ -74,7 +64,7 @@ public class ReplyKeyboardButton implements Button {
 				throw new IllegalStateException("The button must contain text.");
 			}
 			if (requestContact && requestLocation) {
-				throw new IllegalStateException("Cannot send 'request_contact' and 'request_location'.");
+				throw new IllegalStateException("Unable to set both 'request_contact' and 'request_location' at the same time.");
 			}
 		}
 	}
