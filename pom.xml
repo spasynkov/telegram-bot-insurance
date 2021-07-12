@@ -19,9 +19,21 @@
 		<org.json.version>20201115</org.json.version>
 		<reactor-spring.version>1.0.1.RELEASE</reactor-spring.version>
 		<ucanaccess.version>5.0.0</ucanaccess.version>
+		<ucanaccess-hibernate-dialect.version>4aa04597</ucanaccess-hibernate-dialect.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://www.jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>com.github.MrErgos</groupId>
+			<artifactId>UCanAccess-Hibernate-dialect</artifactId>
+			<version>${ucanaccess-hibernate-dialect.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
